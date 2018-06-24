@@ -42,18 +42,22 @@ class BaseController extends Controller
             ),
             'return' => array(
                 array(
+                    'key' => 1,
                     'name' => '罗嗣卿',
                     'id' => 12,
                 ),
                 array(
+                    'key' => 2,
                     'name' => '李莉',
                     'id' => 13,
                 ),
                 array(
+                    'key' => 3,
                     'name' => '李彦宏',
                     'id' => 14,
                 ),
                 array(
+                    'key' => 4,
                     'name' => '刘强东',
                     'id' => 15,
                 ),
