@@ -18,17 +18,32 @@ class BaseController extends Controller
 
     public function return()
     {
-        return $this->json($this->getConfig()['return']);
+        $response = $this->json($this->getConfig()['return']);
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost');
+        $response->headers->set('Access-Control-Allow-Headers', 'token, Origin, X-Requested-With, Content-Type, Accept');
+        $response->headers->set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+        $response->headers->set('X-Powered-By', '3.2.1');
+        return $response;
     }
 
     public function confirm()
     {
-        return $this->json($this->getConfig()['confirm']);
+        $response = $this->json($this->getConfig()['confirm']);
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost');
+        $response->headers->set('Access-Control-Allow-Headers', 'token, Origin, X-Requested-With, Content-Type, Accept');
+        $response->headers->set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+        $response->headers->set('X-Powered-By', '3.2.1');
+        return $response;
     }
 
     public function error()
     {
-        return $this->json($this->getConfig()['error']);
+        $response = $this->json($this->getConfig()['error']);
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost');
+        $response->headers->set('Access-Control-Allow-Headers', 'token, Origin, X-Requested-With, Content-Type, Accept');
+        $response->headers->set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+        $response->headers->set('X-Powered-By', '3.2.1');
+        return $response;
     }
 
     /**
