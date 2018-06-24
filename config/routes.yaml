@@ -5,11 +5,11 @@ doc-index:
     path: /
     controller: App\Controller\BaseController::index
 doc-menu:
-    path: /doc-menu
+    path: /api-menu
     controller: App\Controller\Menu\BaseController::index
 doc-multiselect:
-    path: /doc-multiselect
+    path: /api-multiselect
     controller: App\Controller\Multiselect\BaseController::index
 doc-tablesearch:
-    path: /doc-tablesearch
+    path: /api-tablesearch
     controller: App\Controller\Tablesearch\BaseController::index

@@ -1,0 +1,25 @@
+<?php
+
+$arr1 = array(
+ '0' => 'hello',
+ '1' => 'world',
+);
+$arr2 = array(
+    'hello',
+    'world',
+);
+$arr3 = array(
+    'key' => 'hello',
+    'value' => 'world',
+);
+function check($arr)
+{
+    if (array_values($arr) == $arr) {
+        echo '是', PHP_EOL;
+    } else {
+        echo '否', PHP_EOL;
+    }
+}
+check($arr1);
+check($arr2);
+check($arr3);
