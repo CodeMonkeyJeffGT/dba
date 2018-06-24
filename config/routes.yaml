@@ -1,3 +1,15 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+doc-index:
+    path: /
+    controller: App\Controller\BaseController::index
+doc-menu:
+    path: /doc-menu
+    controller: App\Controller\Menu\BaseController::index
+doc-multiselect:
+    path: /doc-multiselect
+    controller: App\Controller\Multiselect\BaseController::index
+doc-tablesearch:
+    path: /doc-tablesearch
+    controller: App\Controller\Tablesearch\BaseController::index
