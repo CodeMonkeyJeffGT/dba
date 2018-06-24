@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BaseController extends Controller
@@ -17,6 +16,21 @@ class BaseController extends Controller
         ));
     }
 
+    public function return()
+    {
+        return $this->json($this->getConfig()['return']);
+    }
+
+    public function confirm()
+    {
+        return $this->json($this->getConfig()['confirm']);
+    }
+
+    public function error()
+    {
+        return $this->json($this->getConfig()['error']);
+    }
+
     /**
      * 获取当前层级所有可用接口/下级目录
      */
@@ -24,16 +38,16 @@ class BaseController extends Controller
     {
         return array(
             array(
-                'name' => 'Menu/',
-                'url' => $this->generateUrl('doc-menu'),
+                'name' => 'Menu',
+                'uri' => $this->generateUrl('api-menu'),
             ),
             array(
-                'name' => 'Tablesearch/',
-                'url' => $this->generateUrl('doc-tablesearch'),
+                'name' => 'Table',
+                'uri' => $this->generateUrl('api-table'),
             ),
             array(
-                'name' => 'Multiselect/',
-                'url' => $this->generateUrl('doc-multiselect'),
+                'name' => 'Multselect',
+                'uri' => $this->generateUrl('api-multselect'),
             ),
         );
     }

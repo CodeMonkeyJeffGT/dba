@@ -7,9 +7,19 @@
     <title>目录</title>
 </head>
 <body>
-    <p>uri: {{ uri }}</p>
+    <h1>{{ name }}</h1>
+    <h5>{{ desc }}</h5>
+    <p>uri: </p>
+    <table style="background-color: rgb(240, 240, 240)">
+    {% for item in uri %}
+        <tr>
+            <td><a href="{{ item.uri }}">{{ item.name }}</a></td>
+            <td>{{ item.desc }}</td>
+        </tr>
+    {% endfor %}    
+    </table>
     <p>params: </p>
-    <table  style="background-color: rgb(240, 240, 240)">
+    <table style="background-color: rgb(240, 240, 240)">
         <tr>
             <th>名字</th>
             <th>类型</th>
@@ -25,7 +35,11 @@
         </tr>
         {% endfor %}
     </table>
-    <p>reutrn: </p>
+    <p>成功返回结果: （mock：<a href="{{ mock.return }}" target="_blank">{{ mock.return }}</a>）</p>
     <pre style="background-color: rgb(240, 240, 240)">{{ return }}</pre>
+    <p>确认返回结果: （mock：<a href="{{ mock.confirm }}" target="_blank">{{ mock.confirm }}</a>）</p>
+    <pre style="background-color: rgb(240, 240, 240)">{{ confirm }}</pre>
+    <p>失败返回结果: （mock：<a href="{{ mock.error }}" target="_blank">{{ mock.error }}</a>）</p>
+    <pre style="background-color: rgb(240, 240, 240)">{{ error }}</pre>
 </body>
 </html>

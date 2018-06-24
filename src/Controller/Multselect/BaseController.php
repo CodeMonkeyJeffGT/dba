@@ -1,0 +1,73 @@
+<?php
+namespace App\Controller\Multselect;
+
+use App\Controller\BaseController as Controller;
+use Symfony\Component\HttpFoundation\Response;
+
+class BaseController extends Controller
+{
+    public function index()
+    {
+        $config = $this->getConfig();
+        $config['return'] = $this->toJs($config['return']);
+        $config['confirm'] = $this->toJs($config['confirm']);
+        $config['error'] = $this->toJs($config['error']);
+        return $this->render('base/api.html', $config);
+    }
+    
+    protected function getConfig()
+    {
+        return array(
+            'name' => 'GET /multselect/{key}',
+            'desc' => '获取多选框内容',
+            'uri' => array(
+                array(
+                    'name' => '/multselect/teacher',
+                    'desc' => '获取可选教师',
+                    'uri' => $this->generateUrl('multselect-teacher'),
+                ),
+            ),
+            'params' => array(
+                array(
+                    'name' => 'search',
+                    'type' => 'string',
+                    'default' => '空',
+                    'must' => '',
+                ),
+            ),
+            'mock' => array(
+                'return' => $this->generateUrl('mock-multselect-return'),
+                'confirm' => $this->generateUrl('mock-multselect-confirm'),
+                'error' => $this->generateUrl('mock-multselect-error'),
+            ),
+            'return' => array(
+                array(
+                    'name' => '罗嗣卿',
+                    'id' => 12,
+                ),
+                array(
+                    'name' => '李莉',
+                    'id' => 13,
+                ),
+                array(
+                    'name' => '李彦宏',
+                    'id' => 14,
+                ),
+                array(
+                    'name' => '刘强东',
+                    'id' => 15,
+                ),
+            ),
+            'confirm' => array(
+                'data' => 'null',
+                'errno' => '2',
+                'errmsg' => ' 此情况一般不存在',
+            ),
+            'error' => array(
+                'data' => 'null',
+                'errno' => '1',
+                'errmsg' => ' 此情况一般不存在',
+            ),
+        );
+    }
+}
