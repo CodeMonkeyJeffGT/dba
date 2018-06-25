@@ -257,21 +257,33 @@ class ExamRepository extends ServiceEntityRepository
     private function checkRepeat($start, $end, $teacher)
     {
         $conn = $this->getEntityManager()->getConnection();
-        // $sql = 'SELECT `e`.`name`
-        //     FROM `exam` `e`
-        //     WHERE (
-        //         `e`.`start` < :start
-        //         AND `e`.`start` > :end
-        //     ) OR (
-        //         `e`.`end` > :start
-        //         AND `e`.`end` < :end
-        //     )
-        // ';
-        // $stmt = $conn->prepare($sql);
-        // $stmt->execute(array(
-        // ));
-        $this->msg = '就是重复了';
-        return true;
+        $sql = 'SELECT `e`.`name` `subject`, `t`.`name`
+            FROM `exam` `e`
+            JOIN `exam_teacher` `et` ON `e`.`id` = `et`.`e_id`
+            JOIN `teacher` `t` ON `et`.`t_id` = `t`.`id`
+            WHERE (
+                `e`.`start` <= :start
+                AND `e`.`start` >= :end
+            ) OR (
+                `e`.`end` >= :start
+                AND `e`.`end` <= :end
+            )
+            AND `t`.`id` IN (' . implode(', ', $teacher) . ')
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'start' => $start,
+            'end' => $end,
+        ));
+        $repeate = $stmt->fetchAll();
+        if (count($repeate) != 0) {
+            $this->msg = '';
+            foreach ($repeate as $val) {
+                $this->msg .= $val['name'] . '老师已在监考' . $val['subject'] . '，时间冲突，是否确认？';
+            }
+            return true;
+        }
+        return false;
     }
 
     private function mergeTable($arr): array
