@@ -102,28 +102,27 @@ class ExamRepository extends ServiceEntityRepository
 
         $sql = 'SELECT `t_id` `id`
         FROM `exam_teacher`
-        WHERE `id` = :id';
+        WHERE `e_id` = :id';
         $stmt = $conn->prepare($sql);
         $stmt->execute(array(
             'id' => $id,
         ));
         $ids = array();
-        foreach ($stmt->fetchAll() as $id) {
-            $ids[] = $id['id'];
+        foreach ($stmt->fetchAll() as $tid) {
+            $ids[] = $tid['id'];
         }
         $adds = array();
         $deletes = array();
-        foreach ($teacher as $id) {
-            if ( ! in_array($id, $ids)) {
-                $adds[] = $id;
+        foreach ($teacher as $tid) {
+            if ( ! in_array($tid, $ids)) {
+                $adds[] = $tid;
             }
         }
-        foreach ($ids as $id) {
-            if ( ! in_array($id, $teacher)) {
-                $deletes[] = $id;
+        foreach ($ids as $tid) {
+            if ( ! in_array($tid, $teacher)) {
+                $deletes[] = $tid;
             }
         }
-        var_dump($deletes);die;
         if ($this->checkRepeat($start, $end, $adds) && ! $confirm) {
             return array(
                 'type' => 'confirm',
@@ -144,9 +143,9 @@ class ExamRepository extends ServiceEntityRepository
         ));
 
         if (count($deletes) != 0) {
-            $sql = 'DELETE FROM `exam_teacher` `et`
-            WHERE `et`.`e_id` = :id
-            AND `et`.`t_id` IN (' . implode(', ', $deletes) . ')';
+            $sql = 'DELETE FROM `exam_teacher`
+            WHERE `exam_teacher`.`e_id` = :id
+            AND `exam_teacher`.`t_id` IN (' . implode(', ', $deletes) . ')';
             $stmt = $conn->prepare($sql);
             $stmt->execute(array('id' => $id));
         }
