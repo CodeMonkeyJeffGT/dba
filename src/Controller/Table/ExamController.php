@@ -13,7 +13,7 @@ class ExamController extends Controller
 
     /**
      * 获取考试信息
-     * @param string $name 监考课程名称
+     * @param string $subject 监考课程名称
      * @param string $address 考试地点
      * @param string $teacher 监考教师
      */
@@ -21,11 +21,11 @@ class ExamController extends Controller
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
         $this->setDefaults();
-        $name    = $request->query->get('name', '');
+        $subject = $request->query->get('subject', '');
         $address = $request->query->get('address', '');
         $teacher = $request->query->get('teacher', '');
         $status = $request->query->get('status', 'all');
-        $this->setTableData($examDb->getTableData($name, $address, $teacher, $status));
+        $this->setTableData($examDb->getTableData($subject, $address, $teacher, $status));
         return $this->return();
     }
 
@@ -33,14 +33,14 @@ class ExamController extends Controller
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
         $id = $request->request->get('id', null);
-        $name = $request->request->get('name', null);
+        $subject = $request->request->get('subject', null);
         $start = $request->request->get('start', null);
         $end = $request->request->get('end', null);
         $address = $request->request->get('address', null);
         $teacher = $request->request->get('teacher', array());
         $confirm = $request->request->get('confirm', false);
 
-        if (empty($name)) {
+        if (empty($subject)) {
             return $this->error('课程名称不能为空');
         }
         if (strtotime($start) < time()) {
@@ -56,7 +56,7 @@ class ExamController extends Controller
             return $this->error('未指定id');
         }
 
-        $rst = $examDb->editExam($id, $name, $start, $end, $address, $teacher, $confirm);
+        $rst = $examDb->editExam($id, $subject, $start, $end, $address, $teacher, $confirm);
         if ($rst == true) {
             return $this->search($request);
         } elseif ($rst['type'] = 'confirm') {
@@ -95,14 +95,14 @@ class ExamController extends Controller
     public function new(Request $request): JsonResponse
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
-        $name = $request->request->get('name', null);
+        $subject = $request->request->get('subject', null);
         $start = $request->request->get('start', null);
         $end = $request->request->get('end', null);
         $address = $request->request->get('address', null);
         $teacher = $request->request->get('teacher', array());
         $confirm = $request->request->get('confirm', false);
 
-        if (empty($name)) {
+        if (empty($subject)) {
             return $this->error('课程名称不能为空');
         }
         if (strtotime($start) < time()) {
@@ -118,7 +118,7 @@ class ExamController extends Controller
             return $this->error('未指定id');
         }
 
-        $rst = $examDb->insExam($name, $start, $end, $address, $teacher, $confirm);
+        $rst = $examDb->insExam($subject, $start, $end, $address, $teacher, $confirm);
         if ($rst == true) {
             return $this->search($request);
         } elseif ($rst['type'] = 'confirm') {
@@ -133,7 +133,7 @@ class ExamController extends Controller
         $this->setTableSearch(array(
             array(
                 'title' => '课程名',
-                'key' => 'name',
+                'key' => 'subject',
                 'type' => 'input',
             ),
             array(
@@ -151,7 +151,7 @@ class ExamController extends Controller
             array(
                 'name' => '搜索',
                 'params' => array(
-                    'name',
+                    'subject',
                     'address',
                     'time',
                     'teacher',
@@ -166,7 +166,7 @@ class ExamController extends Controller
                 'colums' => array(
                     array(
                         'title' => '课程名',
-                        'key' => 'name',
+                        'key' => 'subject',
                         'type' => 'input',
                     ),
                     array(
@@ -202,8 +202,8 @@ class ExamController extends Controller
             ),
             array(
                 'title' => '课程名',
-                'dataIndex' => 'name',
-                'key' => 'name',
+                'dataIndex' => 'subject',
+                'key' => 'subject',
                 'type' => 'input',
             ),
             array(
