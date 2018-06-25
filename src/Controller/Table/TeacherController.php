@@ -225,7 +225,7 @@ class TeacherController extends Controller
             ),
             array(
                 'title' => '删除',
-                'value' => 'uri',
+                'value' => 'delete',
                 'uri' => '/api/teacher/delete',
                 'params' => array(
                     'id',
