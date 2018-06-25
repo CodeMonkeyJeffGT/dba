@@ -24,7 +24,8 @@ class ExamController extends Controller
         $name    = $request->query->get('name', '');
         $address = $request->query->get('address', '');
         $teacher = $request->query->get('teacher', '');
-        $this->setTableData($examDb->getTableData($name, $address, $teacher));
+        $status = $request->query->get('status', 'all');
+        $this->setTableData($examDb->getTableData($name, $address, $teacher, $status));
         return $this->return();
     }
 
@@ -152,33 +153,6 @@ class ExamController extends Controller
                 'title' => '编辑',
                 'value' => 'edit',
                 'uri' => '/tablesearch/edit',
-                'colums' => array(
-                    array(
-                        'title' => '课程名',
-                        'key' => 'name',
-                        'type' => 'input',
-                    ),
-                    array(
-                        'title' => '地点',
-                        'key' => 'address',
-                        'type' => 'input',
-                    ),
-                    array(
-                        'title' => '开始时间',
-                        'key' => 'start',
-                        'type' => 'time',
-                    ),
-                    array(
-                        'title' => '结束时间',
-                        'key' => 'end',
-                        'type' => 'time',
-                    ),
-                    array(
-                        'title' => '监考教师',
-                        'key' => 'teacher',
-                        'type' => 'multselect',
-                    ),
-                ),
                 'params' => array(
                     'id',
                     'confirm',

@@ -213,55 +213,18 @@ class BaseController extends Controller
                             'title' => '编辑',
                             'value' => 'edit',
                             'uri' => '/tablesearch/edit',
-                            'colums' => array(
-                                array(
-                                    'title' => '课程名',
-                                    'key' => 'name',
-                                    'type' => 'input',
-                                ),
-                                array(
-                                    'title' => '地点',
-                                    'key' => 'address',
-                                    'type' => 'input',
-                                ),
-                                array(
-                                    'title' => '开始时间',
-                                    'key' => 'start',
-                                    'type' => 'time',
-                                ),
-                                array(
-                                    'title' => '结束时间',
-                                    'key' => 'end',
-                                    'type' => 'time',
-                                ),
-                                array(
-                                    'title' => '监考教师',
-                                    'key' => 'teacher',
-                                    'type' => 'multselect',
-                                ),
-                            ),
-                            'params' => array(
-                                'id',
-                                'confirm',
-                            ),
                             'method' => 'post',
                         ),
                         array(
                             'title' => '删除',
                             'value' => 'uri',
                             'uri' => '/tablesearch/delete',
-                            'params' => array(
-                                'id',
-                            ),
                             'method' => 'post',
                         ),
                         array(
                             'title' => '发送短信提醒',
                             'value' => 'uri',
                             'uri' => '/tablesearch/remind',
-                            'params' => array(
-                                'id',
-                            ),
                             'method' => 'post',
                         ),
                     ),

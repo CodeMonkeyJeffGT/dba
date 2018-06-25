@@ -19,12 +19,25 @@ class ExamRepository extends ServiceEntityRepository
         parent::__construct($registry, Exam::class);
     }
 
-    public function getTableData($name, $address, $teacher)
+    public function getTableData($name, $address, $teacher, $status)
     {
         $conn = $this->getEntityManager()->getConnection();
         $nameLike = $this->toLike($name);
         $addressLike = $this->toLike($address);
         $teacherLike = $this->toLike($teacher);
+        $sqlStatus = '';
+        switch ($status) {
+            case 'unassigned':
+
+                break;
+            case 'assigned':
+                break;
+            case 'completed':
+                $sqlStatus = '
+                    AND `t`.`start` > ' . date('Y-m-d H:i:s', time()) . '
+                ';
+                break;
+        }
         $sql = 'SELECT `e`.*, `t`.`name` `teacher`
         FROM `exam` `e`
         LEFT JOIN `exam_teacher` `et` ON `e`.`id` = `et`.`e_id`
@@ -51,7 +64,8 @@ class ExamRepository extends ServiceEntityRepository
                 `t2`.`name` LIKE :teacher_like
                 OR `t2`.`name` IS NULL
             )
-        )';
+        )
+        ';
         $stmt = $conn->prepare($sql);
         $stmt->execute(array(
             'name' => '%' . $name . '%',
