@@ -80,7 +80,7 @@ class TeacherRepository extends ServiceEntityRepository
 
     public function newTeacher($name, $account, $password, $phone)
     {
-        
+
     }
 
     private function mergeTable($arr): array
@@ -89,10 +89,10 @@ class TeacherRepository extends ServiceEntityRepository
         for ($i = 0, $loop = count($arr); $i < $loop; $i++) {
             $rst[] = array(
                 'key' => (int)$arr[$i]['id'],
-                'id' => array((int)$arr[$i]['id']),
-                'name' => array($arr[$i]['name']),
-                'account' => array($arr[$i]['account']),
-                'phone' => array($arr[$i]['phone']),
+                'id' => (int)$arr[$i]['id'],
+                'name' => $arr[$i]['name'],
+                'account' => $arr[$i]['account'],
+                'phone' => $arr[$i]['phone'],
             );
         }
         return $rst;

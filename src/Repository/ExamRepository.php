@@ -108,11 +108,11 @@ class ExamRepository extends ServiceEntityRepository
             if ( ! isset($rst[$arr[$i]['id']])) {
                 $rst[$arr[$i]['id']] = array(
                     'key' => (int)$arr[$i]['id'],
-                    'id' => array((int)$arr[$i]['id']),
-                    'name' => array($arr[$i]['name']),
-                    'start' => array($arr[$i]['start']),
-                    'end' => array($arr[$i]['end']),
-                    'address' => array($arr[$i]['address']),
+                    'id' => (int)$arr[$i]['id'],
+                    'name' => $arr[$i]['name'],
+                    'start' => $arr[$i]['start'],
+                    'end' => $arr[$i]['end'],
+                    'address' => $arr[$i]['address'],
                     'teacher' => array($arr[$i]['teacher']),
                 );
             } else {
