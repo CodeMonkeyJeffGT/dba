@@ -10,29 +10,44 @@ class BaseController extends Controller
 {
     protected function return($data): JsonResponse
     {
-        return $this->json(array(
+        $response = $this->json(array(
             'data' => $data,
             'errno' => 0,
             'errmsg' => 'OK',
         ));
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
+        $response->headers->set('Access-Control-Allow-Headers', 'token, Origin, X-Requested-With, Content-Type, Accept');
+        $response->headers->set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+        $response->headers->set('X-Powered-By', '3.2.1');
+        return $response;
     }
 
     protected function confirm($msg): JsonResponse
     {
-        return $this->json(array(
+        $response = $this->json(array(
             'data' => null,
             'errno' => 2,
             'errmsg' => $msg,
         ));
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
+        $response->headers->set('Access-Control-Allow-Headers', 'token, Origin, X-Requested-With, Content-Type, Accept');
+        $response->headers->set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+        $response->headers->set('X-Powered-By', '3.2.1');
+        return $response;
     }
 
     protected function error($msg): JsonResponse
     {
-        return $this->json(array(
+        $response = $this->json(array(
             'data' => null,
             'errno' => 1,
             'errmsg' => $msg,
         ));
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
+        $response->headers->set('Access-Control-Allow-Headers', 'token, Origin, X-Requested-With, Content-Type, Accept');
+        $response->headers->set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+        $response->headers->set('X-Powered-By', '3.2.1');
+        return $response;
     }
 
     /**
