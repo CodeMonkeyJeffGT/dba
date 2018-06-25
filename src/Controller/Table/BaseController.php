@@ -98,7 +98,7 @@ class BaseController extends Controller
                     'tableSearch' => array(
                         array(
                             'title' => '课程名',
-                            'key' => 'subject',
+                            'key' => 'name',
                             'type' => 'input',
                         ),
                         array(
@@ -121,7 +121,7 @@ class BaseController extends Controller
                         array(
                             'name' => '搜索',
                             'params' => array(
-                                'subject',
+                                'name',
                                 'address',
                                 'time',
                                 'teacher',
@@ -136,7 +136,7 @@ class BaseController extends Controller
                             'colums' => array(
                                 array(
                                     'title' => '课程名',
-                                    'key' => 'subject',
+                                    'key' => 'name',
                                     'type' => 'input',
                                 ),
                                 array(
@@ -157,7 +157,7 @@ class BaseController extends Controller
                             ),
                             'uri' => '/tableSearch/exam/new',
                             'method' => 'post',
-                        )
+                        ),
                     ),
                     'colums' => array(
                         array(
@@ -167,8 +167,8 @@ class BaseController extends Controller
                         ),
                         array(
                             'title' => '课程名',
-                            'dataIndex' => 'subject',
-                            'key' => 'subject',
+                            'dataIndex' => 'name',
+                            'key' => 'name',
                         ),
                         array(
                             'title' => '时间',
@@ -190,7 +190,7 @@ class BaseController extends Controller
                         array(
                             'key' => 1,
                             'id' => array(23),
-                            'subject' => array('数学'),
+                            'name' => array('数学'),
                             'time' => array('2018/05.12 13:30-14:30'),
                             'address' => array('丹青912'),
                             'teacher' => array('罗嗣卿', '李彦宏'),
@@ -198,7 +198,7 @@ class BaseController extends Controller
                         array(
                             'key' => 2,
                             'id' => array(24),
-                            'subject' => array('erp'),
+                            'name' => array('erp'),
                             'time' => array('2018/05.12 13:30-14:30'),
                             'address' => array('丹青910'),
                             'teacher' => array('李莉', '刘强东'),
@@ -216,7 +216,7 @@ class BaseController extends Controller
                             'colums' => array(
                                 array(
                                     'title' => '课程名',
-                                    'key' => 'subject',
+                                    'key' => 'name',
                                     'type' => 'input',
                                 ),
                                 array(
