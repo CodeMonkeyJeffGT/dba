@@ -65,25 +65,11 @@ class ExamRepository extends ServiceEntityRepository
         $rst = $stmt->fetchAll();
         $rst = $this->mergeTable($rst);
         return $rst;
+    }
 
-        return array(
-            array(
-                'key' => 1,
-                'id' => array(23),
-                'name' => array('数学'),
-                'time' => array('2018/05.12 13:30-14:30'),
-                'address' => array('丹青912'),
-                'teacher' => array('罗嗣卿', '李彦宏'),
-            ),
-            array(
-                'key' => 2,
-                'id' => array(24),
-                'name' => array('erp'),
-                'time' => array('2018/05.12 13:30-14:30'),
-                'address' => array('丹青910'),
-                'teacher' => array('李莉', '刘强东'),
-            ),
-        );
+    public function deleteExam($id): bool
+    {
+        
     }
 
     private function mergeTable($arr): array

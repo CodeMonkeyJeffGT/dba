@@ -31,6 +31,15 @@ class ExamController extends Controller
     public function edit(Request $request): JsonResponse
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
+        $id = $request->request->get('id', null);
+        $name = $request->request->get('id', null);
+        $address = $request->request->get('address', null);
+        if (is_null($id)) {
+            $this->error('未指定id');
+        }
+        if ( ! $examDb->editExam($id)) {
+            $this->error('监考记录不存在');
+        }
         return $this->search($request);
     }
 
@@ -93,11 +102,6 @@ class ExamController extends Controller
                         'type' => 'input',
                     ),
                     array(
-                        'title' => '时间',
-                        'key' => 'time',
-                        'type' => 'time',
-                    ),
-                    array(
                         'title' => '监考教师',
                         'key' => 'teacher',
                         'type' => 'multselect',
@@ -119,9 +123,14 @@ class ExamController extends Controller
                 'key' => 'name',
             ),
             array(
-                'title' => '时间',
-                'dataIndex' => 'time',
-                'key' => 'time',
+                'title' => '开始时间',
+                'dataIndex' => 'start',
+                'key' => 'start',
+            ),
+            array(
+                'title' => '结束时间',
+                'dataIndex' => 'end',
+                'key' => 'end',
             ),
             array(
                 'title' => '地点',
@@ -155,8 +164,13 @@ class ExamController extends Controller
                         'type' => 'input',
                     ),
                     array(
-                        'title' => '时间',
-                        'key' => 'time',
+                        'title' => '开始时间',
+                        'key' => 'start',
+                        'type' => 'time',
+                    ),
+                    array(
+                        'title' => '结束时间',
+                        'key' => 'end',
                         'type' => 'time',
                     ),
                     array(
