@@ -111,6 +111,8 @@ class ExamController extends Controller
         if (empty($end)) {
             return $this->error('请选择结束时间');
         }
+        $start = date('Y/m/d H:i:s', strtotime($start));
+        $end = date('Y/m/d H:i:s', strtotime($end));
         if (strtotime($start) < time()) {
             return $this->error('开始时间不能晚于当前时间');
         }
@@ -122,7 +124,7 @@ class ExamController extends Controller
         }
 
         $rst = $examDb->insExam($subject, $start, $end, $address, $teacher, $confirm);
-        if ($rst == true) {
+        if ($rst === true) {
             return $this->search($request);
         } elseif ($rst['type'] = 'confirm') {
             return $this->confirm($rst['msg']);

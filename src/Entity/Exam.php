@@ -37,7 +37,7 @@ class Exam
     private $end;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", options={"default":"CURRENT_TIMESTAMP"})
      */
     private $created;
 

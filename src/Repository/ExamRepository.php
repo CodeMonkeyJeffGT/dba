@@ -14,6 +14,8 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ExamRepository extends ServiceEntityRepository
 {
+    private $msg;
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Exam::class);
@@ -104,6 +106,31 @@ class ExamRepository extends ServiceEntityRepository
                 'msg' => $this->msg,
             );
         }
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'INSERT INTO `exam`(`name`, `address`, `start`, `end`)
+            VALUES(:name, :address, :start, :end)
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'name' => $subject,
+            'start' => $start,
+            'end' => $end,
+            'address' => $address,
+        ));
+        $id = $conn->lastInsertId();
+        if (count($teacher) != 0) {
+            $sql = 'INSERT INTO `exam_teacher`(`e_id`, `t_id`) VALUES(:e, :t0)';
+            $arr = array(
+                'e' => $id,
+                't0' => $teacher[0]
+            );
+            for ($i = 1, $loop = count($teacher); $i < $loop; $i++) {
+                $sql .= ', (:e, :t' . $i . ')';
+                $arr['t' . $i] = $teacher[1];
+            }
+            $stmt = $conn->prepare($sql);
+            $stmt->execute($arr);
+        }
         return true;
     }
 
@@ -123,7 +150,8 @@ class ExamRepository extends ServiceEntityRepository
         // $stmt = $conn->prepare($sql);
         // $stmt->execute(array(
         // ));
-        return true;
+        // $this->msg = '就是重复了';
+        return false;
     }
 
     private function mergeTable($arr): array
