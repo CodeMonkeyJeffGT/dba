@@ -248,7 +248,7 @@ class ExamController extends Controller
             ),
             array(
                 'title' => '删除',
-                'value' => 'uri',
+                'value' => 'delete',
                 'uri' => '/api/table/exam/delete',
                 'params' => array(
                     'id',
@@ -257,7 +257,7 @@ class ExamController extends Controller
             ),
             array(
                 'title' => '发送短信提醒',
-                'value' => 'uri',
+                'value' => 'remind',
                 'uri' => '/api/table/exam/remind',
                 'params' => array(
                     'id',
