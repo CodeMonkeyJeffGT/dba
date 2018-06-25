@@ -36,23 +36,25 @@ class BaseController extends Controller
             ),
             'return' => array(
                 'data' => array(
-                    'title' => '监考管理',
-                    'children' => array(
-                        array(
-                            'key' => 'exam',
-                            'title' => '全部监考',
-                        ),
-                        array(
-                            'key' => 'exam-unassigned',
-                            'title' => '未分配监考',
-                        ),
-                        array(
-                            'key' => 'exam-assigned',
-                            'title' => '已分配监考',
-                        ),
-                        array(
-                            'key' => 'exam-completed',
-                            'title' => '已完成监考',
+                    array(
+                        'title' => '监考管理',
+                        'children' => array(
+                            array(
+                                'key' => 'exam',
+                                'title' => '全部监考',
+                            ),
+                            array(
+                                'key' => 'exam-unassigned',
+                                'title' => '未分配监考',
+                            ),
+                            array(
+                                'key' => 'exam-assigned',
+                                'title' => '已分配监考',
+                            ),
+                            array(
+                                'key' => 'exam-completed',
+                                'title' => '已完成监考',
+                            ),
                         ),
                     ),
                 ),
