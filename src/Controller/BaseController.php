@@ -19,7 +19,7 @@ class BaseController extends Controller
     public function return()
     {
         $response = $this->json($this->getConfig()['return']);
-        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost');
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
         $response->headers->set('Access-Control-Allow-Headers', 'token, Origin, X-Requested-With, Content-Type, Accept');
         $response->headers->set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
         $response->headers->set('X-Powered-By', '3.2.1');
@@ -29,7 +29,7 @@ class BaseController extends Controller
     public function confirm()
     {
         $response = $this->json($this->getConfig()['confirm']);
-        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost');
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
         $response->headers->set('Access-Control-Allow-Headers', 'token, Origin, X-Requested-With, Content-Type, Accept');
         $response->headers->set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
         $response->headers->set('X-Powered-By', '3.2.1');
@@ -39,7 +39,7 @@ class BaseController extends Controller
     public function error()
     {
         $response = $this->json($this->getConfig()['error']);
-        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost');
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
         $response->headers->set('Access-Control-Allow-Headers', 'token, Origin, X-Requested-With, Content-Type, Accept');
         $response->headers->set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
         $response->headers->set('X-Powered-By', '3.2.1');
