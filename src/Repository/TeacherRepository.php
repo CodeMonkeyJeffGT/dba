@@ -6,12 +6,6 @@ use App\Entity\Teacher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-/**
- * @method Teacher|null find($id, $lockMode = null, $lockVersion = null)
- * @method Teacher|null findOneBy(array $criteria, array $orderBy = null)
- * @method Teacher[]    findAll()
- * @method Teacher[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class TeacherRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
@@ -45,11 +39,11 @@ class TeacherRepository extends ServiceEntityRepository
     {
         $conn = $this->getEntityManager()->getConnection();
         $searchLike = $this->toLike($search);
-        $sql = 'SELECT `t1`.`id` `id`, `t1`.`name` `name`, `t1`.`account` `account`, `t1`.`phone` `phone`
+        $sql = 'SELECT `t1`.`id` `id`, `t1`.`name` `name`, `t1`.`account` `account`, `t1`.`phone` `phone`, `t1`.`admin` `admin`
         FROM `teacher` `t1`
         WHERE `t1`.`name` LIKE :search
         UNION
-        SELECT `t2`.`id` `id`, `t2`.`name` `name`, `t2`.`account` `account`, `t2`.`phone` `phone`
+        SELECT `t2`.`id` `id`, `t2`.`name` `name`, `t2`.`account` `account`, `t2`.`phone` `phone`, `t2`.`admin` `admin`
         FROM `teacher` `t2`
         WHERE `t2`.`name` LIKE :search_like
         ';
@@ -63,24 +57,92 @@ class TeacherRepository extends ServiceEntityRepository
         return $this->mergeTable($rst);
     }
 
-    public function editTeacher($id, $name, $phone)
+    public function editTeacher($id, $name, $phone, $admin)
     {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT `t`.`id`
+        FROM `teacher` `t`
+        WHERE `t`.`id` = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+        if (count($stmt->fetchAll()) == 0) {
+            return array(
+                'type' => 'error',
+                'msg' => '所选教师不存在',
+            );
+        }
 
+        $sql = 'UPDATE `teacher` `t`
+            SET `t`.`name` = :name, `t`.`phone` = :phone, `t`.`admin` = :admin
+            WHERE `t`.`id` = :id
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'name' => $name,
+            'phone' => $phone,
+            'admin' => (int)$admin,
+            'id' => $id,
+        ));
+        return true;
     }
 
     public function deleteTeacher($id)
     {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT `t`.`id`
+        FROM `teacher` `t`
+        WHERE `t`.`id` = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+        if (count($stmt->fetchAll()) == 0) {
+            return array(
+                'type' => 'error',
+                'msg' => '所选教师不存在',
+            );
+        }
 
+        $sql = 'DELETE FROM `teacher`
+            WHERE `teacher`.`id` = :id
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+        return true;
     }
 
-    public function permitTeacher($id)
+    public function newTeacher($name, $account, $password, $phone, $admin)
     {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT `t`.`id`
+        FROM `teacher` `t`
+        WHERE `t`.`account` = :account';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'account' => $account,
+        ));
+        if (count($stmt->fetchAll()) != 0) {
+            return array(
+                'type' => 'error',
+                'msg' => '账号已存在，请使用其他账号',
+            );
+        }
 
-    }
-
-    public function newTeacher($name, $account, $password, $phone)
-    {
-
+        $sql = 'INSERT INTO `teacher`(`name`, `account`, `password`, `phone`, `admin`)
+        VALUES(:name, :account, :password, :phone, :admin)';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'name' => $name,
+            'account' => $account,
+            'phone' => $phone,
+            'password' => $password,
+            'admin' => (int)$admin,
+        ));
+        return true;
     }
 
     private function mergeTable($arr): array
@@ -93,6 +155,7 @@ class TeacherRepository extends ServiceEntityRepository
                 'name' => $arr[$i]['name'],
                 'account' => $arr[$i]['account'],
                 'phone' => $arr[$i]['phone'],
+                'admin' => $arr[$i]['admin'] ? '是' : '否',
             );
         }
         return $rst;
@@ -105,33 +168,4 @@ class TeacherRepository extends ServiceEntityRepository
         }
         return $str . '%';
     }
-
-//    /**
-//     * @return Teacher[] Returns an array of Teacher objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Teacher
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

@@ -6,12 +6,6 @@ use App\Entity\Exam;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-/**
- * @method Exam|null find($id, $lockMode = null, $lockVersion = null)
- * @method Exam|null findOneBy(array $criteria, array $orderBy = null)
- * @method Exam[]    findAll()
- * @method Exam[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class ExamRepository extends ServiceEntityRepository
 {
     private $msg;
@@ -198,7 +192,30 @@ class ExamRepository extends ServiceEntityRepository
 
     public function remindExam($id)
     {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT `e`.`id`
+        FROM `exam` `e`
+        WHERE `e`.`id` = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+        if (count($stmt->fetchAll()) == 0) {
+            return false;
+        }
 
+        $sql = 'SELECT `t_id` `id`
+        FROM `exam_teacher`
+        WHERE `e_id` = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+        $ids = array();
+        foreach ($stmt->fetchAll() as $tid) {
+            $ids[] = $tid['id'];
+        }
+        return $ids;
     }
 
     public function insExam($subject, $start, $end, $address, $teacher, $confirm = false)
@@ -285,33 +302,4 @@ class ExamRepository extends ServiceEntityRepository
         }
         return $str . '%';
     }
-
-//    /**
-//     * @return Exam[] Returns an array of Exam objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Exam
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

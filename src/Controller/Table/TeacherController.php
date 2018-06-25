@@ -25,6 +25,7 @@ class TeacherController extends Controller
         $id = $this->request('id', null);
         $name = $this->request('name', null);
         $phone = $this->request('phone', null);
+        $admin = $this->request('admin', null);
 
         if (empty($name)) {
             return $this->error('教师姓名不能为空');
@@ -35,9 +36,12 @@ class TeacherController extends Controller
         if (empty($id)) {
             return $this->error('未指定id');
         }
+        if (is_null($admin)) {
+            return $this->error('未指定权限');
+        }
 
-        $rst = $teacherDb->editTeacher($id, $name, $phone);
-        if ($rst == true) {
+        $rst = $teacherDb->editTeacher($id, $name, $phone, $admin);
+        if ($rst === true) {
             return $this->search($request);
         } elseif ($rst['type'] = 'confirm') {
             return $this->confirm($rst['msg']);
@@ -56,26 +60,7 @@ class TeacherController extends Controller
         }
 
         $rst = $teacherDb->deleteTeacher($id);
-        if ($rst == true) {
-            return $this->search($request);
-        } elseif ($rst['type'] = 'confirm') {
-            return $this->confirm($rst['msg']);
-        } else {
-            return $this->error($rst['msg']);
-        }   
-    }
-
-    public function changePermit(Request $request): JsonResponse
-    {
-        $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        $id = $this->request('id', null);
-        
-        if (empty($id)) {
-            return $this->error('未指定id');
-        }
-
-        $rst = $teacherDb->permitTeacher($id);
-        if ($rst == true) {
+        if ($rst === true) {
             return $this->search($request);
         } elseif ($rst['type'] = 'confirm') {
             return $this->confirm($rst['msg']);
@@ -91,6 +76,7 @@ class TeacherController extends Controller
         $account = $this->request('account', null);
         $password = $this->request('password', null);
         $phone = $this->request('phone', null);
+        $admin = $this->request('admin', null);
 
         if (empty($name)) {
             return $this->error('教师姓名不能为空');
@@ -105,9 +91,12 @@ class TeacherController extends Controller
         if (empty($phone)) {
             return $this->error('手机号不能为空');
         }
+        if (is_null($admin)) {
+            return $this->error('未指定权限');
+        }
 
-        $rst = $teacherDb->newTeacher($name, $account, $password, $phone);
-        if ($rst == true) {
+        $rst = $teacherDb->newTeacher($name, $account, $password, $phone, $admin);
+        if ($rst === true) {
             return $this->search($request);
         } elseif ($rst['type'] = 'confirm') {
             return $this->confirm($rst['msg']);
