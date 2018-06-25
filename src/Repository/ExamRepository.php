@@ -98,7 +98,28 @@ class ExamRepository extends ServiceEntityRepository
 
     public function insExam($subject, $start, $end, $address, $teacher, $confirm = false)
     {
+        if ($this->checkRepeat($start, $end, $teacher) && ! $confirm) {
+            
+        }
+    }
 
+    private function checkRepeat($start, $end, $teacher)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        // $sql = 'SELECT `e`.`name`
+        //     FROM `exam` `e`
+        //     WHERE (
+        //         `e`.`start` < :start
+        //         AND `e`.`start` > :end
+        //     ) OR (
+        //         `e`.`end` > :start
+        //         AND `e`.`end` < :end
+        //     )
+        // ';
+        // $stmt = $conn->prepare($sql);
+        // $stmt->execute(array(
+        // ));
+        return true;
     }
 
     private function mergeTable($arr): array

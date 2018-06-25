@@ -105,10 +105,16 @@ class ExamController extends Controller
         if (empty($subject)) {
             return $this->error('课程名称不能为空');
         }
+        if (empty($start)) {
+            return $this->error('请选择开始时间');
+        }
+        if (empty($end)) {
+            return $this->error('请选择结束时间');
+        }
         if (strtotime($start) < time()) {
             return $this->error('开始时间不能晚于当前时间');
         }
-        if (strtotime($start) < strtotime($end)) {
+        if (strtotime($start) > strtotime($end)) {
             return $this->error('结束时间不能晚于开始时间');
         }
         if (empty($address)) {
