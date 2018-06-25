@@ -14,7 +14,7 @@ class TeacherController extends Controller
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         $this->setDefaults();
-        $name    = $request->query->get('name', '');
+        $name = $request->query->get('name', '');
         $this->setTableData($teacherDb->getTableData($name));
         return $this->return();
     }
@@ -57,9 +57,6 @@ class TeacherController extends Controller
                 'name' => '搜索',
                 'params' => array(
                     'name',
-                    'address',
-                    'time',
-                    'teacher',
                 ),
                 'type' => 'uri',
                 'uri' => '/table/teacher',
@@ -76,17 +73,17 @@ class TeacherController extends Controller
                     ),
                     array(
                         'title' => '账号',
-                        'key' => 'address',
+                        'key' => 'account',
                         'type' => 'input',
                     ),
                     array(
                         'title' => '密码',
-                        'key' => 'start',
+                        'key' => 'password',
                         'type' => 'input',
                     ),
                     array(
                         'title' => '手机号',
-                        'key' => 'end',
+                        'key' => 'phone',
                         'type' => 'input',
                     ),
                 ),

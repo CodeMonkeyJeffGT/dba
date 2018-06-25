@@ -41,6 +41,43 @@ class TeacherRepository extends ServiceEntityRepository
         return $rst;
     }
 
+    public function getTableData($search): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $searchLike = $this->toLike($search);
+        $sql = 'SELECT `t1`.`id` `id`, `t1`.`name` `name`, `t1`.`account` `account`, `t1`.`phone` `phone`
+        FROM `teacher` `t1`
+        WHERE `t1`.`name` LIKE :search
+        UNION
+        SELECT `t2`.`id` `id`, `t2`.`name` `name`, `t2`.`account` `account`, `t2`.`phone` `phone`
+        FROM `teacher` `t2`
+        WHERE `t2`.`name` LIKE :search_like
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'search' => '%' . $search . '%',
+            'search_like' => $searchLike,
+        ));
+
+        $rst = $stmt->fetchAll();
+        return $this->mergeTable($rst);
+    }
+
+    private function mergeTable($arr): array
+    {
+        $rst = array();
+        for ($i = 0, $loop = count($arr); $i < $loop; $i++) {
+            $rst[] = array(
+                'key' => (int)$arr[$i]['id'],
+                'id' => array((int)$arr[$i]['id']),
+                'name' => array($arr[$i]['name']),
+                'account' => array($arr[$i]['account']),
+                'phone' => array($arr[$i]['phone']),
+            );
+        }
+        return $rst;
+    }
+
     private function toLike($str): string
     {
         for ($i = 0, $loop = mb_strlen($str); $i < $loop; $i++) {

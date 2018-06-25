@@ -95,7 +95,8 @@ class ExamRepository extends ServiceEntityRepository
                     'key' => (int)$arr[$i]['id'],
                     'id' => array((int)$arr[$i]['id']),
                     'name' => array($arr[$i]['name']),
-                    'time' => array($arr[$i]['start'] . ' - ' . $arr[$i]['end']),
+                    'start' => array($arr[$i]['start']),
+                    'end' => array($arr[$i]['end']),
                     'address' => array($arr[$i]['address']),
                     'teacher' => array($arr[$i]['teacher']),
                 );
