@@ -63,6 +63,26 @@ class TeacherRepository extends ServiceEntityRepository
         return $this->mergeTable($rst);
     }
 
+    public function editTeacher($id, $name, $phone)
+    {
+
+    }
+
+    public function deleteTeacher($id)
+    {
+
+    }
+
+    public function permitTeacher($id)
+    {
+
+    }
+
+    public function newTeacher($name, $account, $password, $phone)
+    {
+        
+    }
+
     private function mergeTable($arr): array
     {
         $rst = array();

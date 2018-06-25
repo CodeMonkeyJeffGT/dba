@@ -36,6 +36,11 @@ class Teacher
      */
     private $phone;
 
+    /**
+     * @ORM\Column(type="smallint", options={"default":0})
+     */
+    private $admin;
+
     public function getId()
     {
         return $this->id;

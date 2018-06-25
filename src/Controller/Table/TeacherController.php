@@ -159,6 +159,15 @@ class TeacherController extends Controller
                         'key' => 'phone',
                         'type' => 'input',
                     ),
+                    array(
+                        'title' => '管理员',
+                        'key' => 'admin',
+                        'type' => 'select',
+                        'selections' => array(
+                            '1' => '是',
+                            '0' => '否',
+                        ),
+                    ),
                 ),
                 'uri' => '/table/teacher/new',
                 'method' => 'post',
@@ -188,6 +197,16 @@ class TeacherController extends Controller
                 'key' => 'phone',
                 'type' => 'input',
             ),
+            array(
+                'title' => '管理员',
+                'dataIndex' => 'admin',
+                'key' => 'admin',
+                'type' => 'select',
+                'selections' => array(
+                    '1' => '是',
+                    '0' => '否',
+                )
+            )
         ));
         $this->setActions(array(
             array(

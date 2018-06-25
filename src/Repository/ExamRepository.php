@@ -80,10 +80,25 @@ class ExamRepository extends ServiceEntityRepository
         $rst = $this->mergeTable($rst);
         return $rst;
     }
+    
+    public function editExam($id, $subject, $start, $end, $address, $teacher, $confirm)
+    {
 
-    public function deleteExam($id): bool
+    }
+
+    public function deleteExam($id)
     {
         
+    }
+
+    public function remindExam($id)
+    {
+
+    }
+
+    public function insExam($subject, $start, $end, $address, $teacher, $confirm = false)
+    {
+
     }
 
     private function mergeTable($arr): array
