@@ -14,4 +14,22 @@ class ExamController extends Controller
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
         return $this->return();
     }
+
+    public function edit(): JsonResponse
+    {
+        $examDb = $this->getDoctrine()->getRepository(Exam::class);
+        return $this->return();
+    }
+
+    public function delete(): JsonResponse
+    {
+        $examDb = $this->getDoctrine()->getRepository(Exam::class);
+        return $this->return();
+    }
+
+    public function remind(): JsonResponse
+    {
+        $examDb = $this->getDoctrine()->getRepository(Exam::class);
+        return $this->return();
+    }
 }

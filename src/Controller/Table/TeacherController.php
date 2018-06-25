@@ -14,4 +14,22 @@ class TeacherController extends Controller
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         return $this->return();
     }
+
+    public function edit(): JsonResponse
+    {
+        $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
+        return $this->return();
+    }
+
+    public function delete(): JsonResponse
+    {
+        $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
+        return $this->return();
+    }
+
+    public function changePermit(): JsonResponse
+    {
+        $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
+        return $this->return();
+    }
 }

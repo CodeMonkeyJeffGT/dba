@@ -25,15 +25,15 @@ table-exam-remind:
 table-teacher:
     path: /api/table/teacher
     controller: App\Controller\Table\TeacherController::search
+table-teacher-edit:
+    path: /api/table/teacher/edit
+    controller: App\Controller\Table\TeacherController::edit
 table-teacher-delete:
     path: /api/table/teacher/delete
     controller: App\Controller\Table\TeacherController::delete
 table-teacher-permit:
     path: /api/table/teacher/permit
     controller: App\Controller\Table\TeacherController::changePermit
-table-teacher-edit:
-    path: /api/table/teacher
-    controller: App\Controller\Table\TeacherController::edit
 
 doc-index:
     path: /
