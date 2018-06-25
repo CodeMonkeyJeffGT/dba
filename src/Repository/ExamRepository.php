@@ -228,8 +228,8 @@ class ExamRepository extends ServiceEntityRepository
         // $stmt = $conn->prepare($sql);
         // $stmt->execute(array(
         // ));
-        // $this->msg = '就是重复了';
-        return false;
+        $this->msg = '就是重复了';
+        return true;
     }
 
     private function mergeTable($arr): array
