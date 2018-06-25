@@ -24,14 +24,13 @@ class ExamRepository extends ServiceEntityRepository
         $sqlStatus = '';
         switch ($status) {
             case 'unassigned':
-
+                $sqlStatus = 'AND `t`.`name` IS NULL';
                 break;
             case 'assigned':
+                $sqlStatus = 'AND `t`.`name` IS NOT NULL';
                 break;
             case 'completed':
-                $sqlStatus = '
-                    AND `t`.`start` > ' . date('Y-m-d H:i:s', time()) . '
-                ';
+                $sqlStatus = 'AND `e`.`start` < "' . date('Y-m-d H:i:s', time()) . '"';
                 break;
         }
         $sql = 'SELECT `e`.*, `t`.`name` `teacher`, `t`.`id` `t_id`
@@ -61,7 +60,7 @@ class ExamRepository extends ServiceEntityRepository
                 OR `t2`.`name` IS NULL
             )
         )
-        ';
+        ' . $sqlStatus;
         $stmt = $conn->prepare($sql);
         $stmt->execute(array(
             'name' => '%' . $name . '%',
