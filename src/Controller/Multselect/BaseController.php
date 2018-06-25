@@ -45,7 +45,7 @@ class BaseController extends Controller
             'params' => array(
                 array(
                     'name' => 'search',
-                    'type' => 'string',
+                    'type' => 'input',
                     'default' => '空',
                     'must' => '',
                 ),

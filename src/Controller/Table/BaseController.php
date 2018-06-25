@@ -83,7 +83,7 @@ class BaseController extends Controller
             'params' => array(
                 array(
                     'name' => 'search',
-                    'type' => 'string',
+                    'type' => 'input',
                     'default' => '空',
                     'must' => '',
                 ),
@@ -145,6 +145,16 @@ class BaseController extends Controller
                                     'type' => 'input',
                                 ),
                                 array(
+                                    'title' => '开始时间',
+                                    'key' => 'start',
+                                    'type' => 'time',
+                                ),
+                                array(
+                                    'title' => '结束时间',
+                                    'key' => 'end',
+                                    'type' => 'time',
+                                ),
+                                array(
                                     'title' => '监考教师',
                                     'key' => 'teacher',
                                     'type' => 'multselect',
@@ -164,26 +174,31 @@ class BaseController extends Controller
                             'title' => '课程名',
                             'dataIndex' => 'name',
                             'key' => 'name',
+                            'type' => 'input',
                         ),
                         array(
                             'title' => '开始时间',
                             'dataIndex' => 'start',
                             'key' => 'start',
+                            'type' => 'time',
                         ),
                         array(
                             'title' => '结束时间',
                             'dataIndex' => 'end',
                             'key' => 'end',
+                            'type' => 'time',
                         ),
                         array(
                             'title' => '地点',
                             'dataIndex' => 'address',
                             'key' => 'address',
+                            'type' => 'input',
                         ),
                         array(
                             'title' => '监考教师',
                             'dataIndex' => 'teacher',
                             'key' => 'teacher',
+                            'type' => 'multselect',
                         ),
                     ),
                     'tableData' => array(

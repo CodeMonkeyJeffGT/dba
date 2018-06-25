@@ -33,12 +33,29 @@ class ExamController extends Controller
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
         $id = $request->request->get('id', null);
-        $name = $request->request->get('id', null);
+        $name = $request->request->get('name', null);
+        $start = $request->request->get('start', null);
+        $end = $request->request->get('end', null);
         $address = $request->request->get('address', null);
-        if (is_null($id)) {
+        $teacher = $request->request->get('teacher', array());
+
+        if (empty($name)) {
+            $this->error('课程名称不能为空');
+        }
+        if (strtotime($start) < time()) {
+            $this->error('开始时间不能晚于当前时间');
+        }
+        if (strtotime($start) < strtotime($end)) {
+            $this->error('结束时间不能晚于开始时间');
+        }
+        if (empty($address)) {
+            $this->error('考试地点不能为空');
+        }
+        if (empty($id)) {
             $this->error('未指定id');
         }
-        if ( ! $examDb->editExam($id)) {
+
+        if ( ! $examDb->editExam($id, $name, $start, $end, $address, $teacher)) {
             $this->error('监考记录不存在');
         }
         return $this->search($request);
@@ -47,12 +64,26 @@ class ExamController extends Controller
     public function delete(Request $request): JsonResponse
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
+        $id = $request->request->get('id', null);
+        if (empty($id)) {
+            $this->error('未指定id');
+        }
+        if ( ! $examDb->deleteExam($id)) {
+            $this->error('监考记录不存在');
+        }
         return $this->search($request);
     }
 
     public function remind(Request $request): JsonResponse
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
+        $id = $request->request->get('id', null);
+        if (empty($id)) {
+            $this->error('未指定id');
+        }
+        if ( ! $examDb->remindExam($id)) {
+            $this->error('监考记录不存在');
+        }
         return $this->search($request);
     }
 
@@ -103,6 +134,16 @@ class ExamController extends Controller
                         'type' => 'input',
                     ),
                     array(
+                        'title' => '开始时间',
+                        'key' => 'start',
+                        'type' => 'time',
+                    ),
+                    array(
+                        'title' => '结束时间',
+                        'key' => 'end',
+                        'type' => 'time',
+                    ),
+                    array(
                         'title' => '监考教师',
                         'key' => 'teacher',
                         'type' => 'multselect',
@@ -122,26 +163,31 @@ class ExamController extends Controller
                 'title' => '课程名',
                 'dataIndex' => 'name',
                 'key' => 'name',
+                'type' => 'input',
             ),
             array(
                 'title' => '开始时间',
                 'dataIndex' => 'start',
                 'key' => 'start',
+                'type' => 'time',
             ),
             array(
                 'title' => '结束时间',
                 'dataIndex' => 'end',
                 'key' => 'end',
+                'type' => 'time',
             ),
             array(
                 'title' => '地点',
                 'dataIndex' => 'address',
                 'key' => 'address',
+                'type' => 'input',
             ),
             array(
                 'title' => '监考教师',
                 'dataIndex' => 'teacher',
                 'key' => 'teacher',
+                'type' => 'multselect',
             ),
         ));
         $this->setActions(array(

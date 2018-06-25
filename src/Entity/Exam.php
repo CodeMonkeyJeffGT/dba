@@ -41,6 +41,11 @@ class Exam
      */
     private $created;
 
+    /**
+     * @ORM\Column(type="smallint", options={"default":0})
+     */
+    private $sent;
+
     public function getId()
     {
         return $this->id;
