@@ -21,6 +21,9 @@ table-exam-delete:
 table-exam-remind:
     path: /api/table/exam/remind
     controller: App\Controller\Table\ExamController::remind
+table-exam-new:
+    path: /api/table/exam/new
+    controller: App\Controller\Table\ExamController::new
 
 table-teacher:
     path: /api/table/teacher

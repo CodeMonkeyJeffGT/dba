@@ -19,28 +19,101 @@ class TeacherController extends Controller
         return $this->return();
     }
 
-    public function edit(): JsonResponse
+    public function edit(Request $request): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        return $this->search($request);        
+        $id = $request->request->get('id', null);
+        $name = $request->request->get('name', null);
+        $phone = $request->request->get('phone', null);
+
+        if (empty($name)) {
+            return $this->error('教师姓名不能为空');
+        }
+        if (empty($phone)) {
+            return $this->error('手机号不能为空');
+        }
+        if (empty($id)) {
+            return $this->error('未指定id');
+        }
+
+        $rst = $teacherDb->editTeacher($id, $name, $phone);
+        if ($rst == true) {
+            return $this->search($request);
+        } elseif ($rst['type'] = 'confirm') {
+            return $this->confirm($rst['msg']);
+        } else {
+            return $this->error($rst['msg']);
+        }
     }
 
-    public function delete(): JsonResponse
+    public function delete(Request $request): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        return $this->search($request);        
+        $id = $request->request->get('id', null);
+        
+        if (empty($id)) {
+            return $this->error('未指定id');
+        }
+
+        $rst = $teacherDb->deleteTeacher($id);
+        if ($rst == true) {
+            return $this->search($request);
+        } elseif ($rst['type'] = 'confirm') {
+            return $this->confirm($rst['msg']);
+        } else {
+            return $this->error($rst['msg']);
+        }   
     }
 
-    public function changePermit(): JsonResponse
+    public function changePermit(Request $request): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        return $this->search($request);        
+        $id = $request->request->get('id', null);
+        
+        if (empty($id)) {
+            return $this->error('未指定id');
+        }
+
+        $rst = $teacherDb->permitTeacher($id);
+        if ($rst == true) {
+            return $this->search($request);
+        } elseif ($rst['type'] = 'confirm') {
+            return $this->confirm($rst['msg']);
+        } else {
+            return $this->error($rst['msg']);
+        }   
     }
 
-    public function new(): JsonResponse
+    public function new(Request $request): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        return $this->search($request);        
+        $name = $request->request->get('name', null);
+        $account = $request->request->get('account', null);
+        $password = $request->request->get('password', null);
+        $phone = $request->request->get('phone', null);
+
+        if (empty($name)) {
+            return $this->error('教师姓名不能为空');
+        }
+        if (empty($account)) {
+            return $this->error('账号不能为空');
+        }
+        if (empty($password)) {
+            return $this->error('密码不能为空');
+        }
+        $password = strtoupper(md5($password));
+        if (empty($phone)) {
+            return $this->error('手机号不能为空');
+        }
+
+        $rst = $teacherDb->newTeacher($name, $account, $password, $phone);
+        if ($rst == true) {
+            return $this->search($request);
+        } elseif ($rst['type'] = 'confirm') {
+            return $this->confirm($rst['msg']);
+        } else {
+            return $this->error($rst['msg']);
+        }   
     }
 
     private function setDefaults()

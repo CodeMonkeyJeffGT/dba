@@ -38,27 +38,32 @@ class ExamController extends Controller
         $end = $request->request->get('end', null);
         $address = $request->request->get('address', null);
         $teacher = $request->request->get('teacher', array());
+        $confirm = $request->request->get('confirm', false);
 
         if (empty($name)) {
-            $this->error('课程名称不能为空');
+            return $this->error('课程名称不能为空');
         }
         if (strtotime($start) < time()) {
-            $this->error('开始时间不能晚于当前时间');
+            return $this->error('开始时间不能晚于当前时间');
         }
         if (strtotime($start) < strtotime($end)) {
-            $this->error('结束时间不能晚于开始时间');
+            return $this->error('结束时间不能晚于开始时间');
         }
         if (empty($address)) {
-            $this->error('考试地点不能为空');
+            return $this->error('考试地点不能为空');
         }
         if (empty($id)) {
-            $this->error('未指定id');
+            return $this->error('未指定id');
         }
 
-        if ( ! $examDb->editExam($id, $name, $start, $end, $address, $teacher)) {
-            $this->error('监考记录不存在');
+        $rst = $examDb->editExam($id, $name, $start, $end, $address, $teacher, $confirm);
+        if ($rst == true) {
+            return $this->search($request);
+        } elseif ($rst['type'] = 'confirm') {
+            return $this->confirm($rst['msg']);
+        } else {
+            return $this->error($rst['msg']);
         }
-        return $this->search($request);
     }
 
     public function delete(Request $request): JsonResponse
@@ -66,10 +71,10 @@ class ExamController extends Controller
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
         $id = $request->request->get('id', null);
         if (empty($id)) {
-            $this->error('未指定id');
+            return $this->error('未指定id');
         }
         if ( ! $examDb->deleteExam($id)) {
-            $this->error('监考记录不存在');
+            return $this->error('监考记录不存在');
         }
         return $this->search($request);
     }
@@ -79,41 +84,48 @@ class ExamController extends Controller
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
         $id = $request->request->get('id', null);
         if (empty($id)) {
-            $this->error('未指定id');
+            return $this->error('未指定id');
         }
         if ( ! $examDb->remindExam($id)) {
-            $this->error('监考记录不存在');
+            return $this->error('监考记录不存在');
         }
         return $this->search($request);
     }
 
-    public function new(): JsonResponse
+    public function new(Request $request): JsonResponse
     {
-        $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        $id = $request->request->get('id', null);
+        $examDb = $this->getDoctrine()->getRepository(Exam::class);
         $name = $request->request->get('name', null);
         $start = $request->request->get('start', null);
         $end = $request->request->get('end', null);
         $address = $request->request->get('address', null);
         $teacher = $request->request->get('teacher', array());
+        $confirm = $request->request->get('confirm', false);
 
         if (empty($name)) {
-            $this->error('课程名称不能为空');
+            return $this->error('课程名称不能为空');
         }
         if (strtotime($start) < time()) {
-            $this->error('开始时间不能晚于当前时间');
+            return $this->error('开始时间不能晚于当前时间');
         }
         if (strtotime($start) < strtotime($end)) {
-            $this->error('结束时间不能晚于开始时间');
+            return $this->error('结束时间不能晚于开始时间');
         }
         if (empty($address)) {
-            $this->error('考试地点不能为空');
+            return $this->error('考试地点不能为空');
         }
         if (empty($id)) {
-            $this->error('未指定id');
+            return $this->error('未指定id');
         }
-        $examDb->insExam($id, $name, $start, $end, $address, $teacher);
-        return $this->search($request);        
+
+        $rst = $examDb->insExam($name, $start, $end, $address, $teacher, $confirm);
+        if ($rst == true) {
+            return $this->search($request);
+        } elseif ($rst['type'] = 'confirm') {
+            return $this->confirm($rst['msg']);
+        } else {
+            return $this->error($rst['msg']);
+        }
     }
 
     private function setDefaults()
