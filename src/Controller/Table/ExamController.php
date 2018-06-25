@@ -120,9 +120,6 @@ class ExamController extends Controller
         if (empty($address)) {
             return $this->error('考试地点不能为空');
         }
-        if (empty($id)) {
-            return $this->error('未指定id');
-        }
 
         $rst = $examDb->insExam($subject, $start, $end, $address, $teacher, $confirm);
         if ($rst == true) {

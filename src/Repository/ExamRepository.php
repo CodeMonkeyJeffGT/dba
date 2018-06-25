@@ -99,8 +99,12 @@ class ExamRepository extends ServiceEntityRepository
     public function insExam($subject, $start, $end, $address, $teacher, $confirm = false)
     {
         if ($this->checkRepeat($start, $end, $teacher) && ! $confirm) {
-            
+            return array(
+                'type' => 'confirm',
+                'msg' => $this->msg,
+            );
         }
+        return true;
     }
 
     private function checkRepeat($start, $end, $teacher)
