@@ -32,7 +32,7 @@ class Teacher
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=12)
      */
     private $phone;
 

@@ -21,6 +21,51 @@ class ExamRepository extends ServiceEntityRepository
 
     public function getTableData($name, $address, $teacher)
     {
+        $conn = $this->getEntityManager()->getConnection();
+        $nameLike = $this->toLike($name);
+        $addressLike = $this->toLike($address);
+        $teacherLike = $this->toLike($teacher);
+        $sql = 'SELECT `e`.*, `t`.`name` `teacher`
+        FROM `exam` `e`
+        LEFT JOIN `exam_teacher` `et` ON `e`.`id` = `et`.`e_id`
+        LEFT JOIN `teacher` `t` ON `et`.`t_id` = `t`.`id`
+        WHERE `e`.`id` IN (
+            SELECT `e1`.`id` `id`
+            FROM `exam` `e1`
+            LEFT JOIN `exam_teacher` `et1` ON `e1`.`id` = `et1`.`e_id`
+            LEFT JOIN `teacher` `t1` ON `et1`.`t_id` = `t1`.`id`
+            WHERE `e1`.`name` LIKE :name
+            AND `e1`.`address` LIKE :address
+            AND (
+                `t1`.`name` LIKE :teacher
+                OR `t1`.`name` IS NULL
+            )
+            UNION
+            SELECT `e2`.`id` `id`
+            FROM `exam` `e2`
+            LEFT JOIN `exam_teacher` `et2` ON `e2`.`id` = `et2`.`e_id`
+            LEFT JOIN `teacher` `t2` ON `et2`.`t_id` = `t2`.`id`
+            WHERE `e2`.`name` LIKE :name_like
+            AND `e2`.`address` LIKE :address_like
+            AND (
+                `t2`.`name` LIKE :teacher_like
+                OR `t2`.`name` IS NULL
+            )
+        )';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'name' => '%' . $name . '%',
+            'address' => '%' . $address . '%',
+            'teacher' => '%' . $teacher . '%',
+            'name_like' => $nameLike,
+            'address_like' => $addressLike,
+            'teacher_like' => $teacherLike,
+        ));
+
+        $rst = $stmt->fetchAll();
+        $rst = $this->mergeTable($rst);
+        return $rst;
+
         return array(
             array(
                 'key' => 1,
@@ -39,6 +84,34 @@ class ExamRepository extends ServiceEntityRepository
                 'teacher' => array('李莉', '刘强东'),
             ),
         );
+    }
+
+    private function mergeTable($arr): array
+    {
+        $rst = array();
+        for ($i = 0, $loop = count($arr); $i < $loop; $i++) {
+            if ( ! isset($rst[$arr[$i]['id']])) {
+                $rst[$arr[$i]['id']] = array(
+                    'key' => (int)$arr[$i]['id'],
+                    'id' => array((int)$arr[$i]['id']),
+                    'name' => array($arr[$i]['name']),
+                    'time' => array($arr[$i]['start'] . ' - ' . $arr[$i]['end']),
+                    'address' => array($arr[$i]['address']),
+                    'teacher' => array($arr[$i]['teacher']),
+                );
+            } else {
+                $rst[$arr[$i]['id']]['teacher'][] = $arr[$i]['teacher'];
+            }
+        }
+        return array_values($rst);
+    }
+
+    private function toLike($str): string
+    {
+        for ($i = 0, $loop = mb_strlen($str); $i < $loop; $i++) {
+            $str = mb_substr($str, 0, $i * 2) . '%' . mb_substr($str, $i * 2, $i + $loop);
+        }
+        return $str . '%';
     }
 
 //    /**
