@@ -85,7 +85,85 @@ class ExamRepository extends ServiceEntityRepository
     
     public function editExam($id, $subject, $start, $end, $address, $teacher, $confirm)
     {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT `e`.`id`
+        FROM `exam` `e`
+        WHERE `e`.`id` = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+        if (count($stmt->fetchAll()) == 0) {
+            return array(
+                'type' => 'error',
+                'msg' => '监考信息不存在',
+            );
+        }
 
+        $sql = 'SELECT `t_id` `id`
+        FROM `exam_teacher`
+        WHERE `id` = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+        $ids = array();
+        foreach ($stmt->fetchAll() as $id) {
+            $ids[] = $id['id'];
+        }
+        $adds = array();
+        $deletes = array();
+        foreach ($teacher as $id) {
+            if ( ! in_array($id, $ids)) {
+                $adds[] = $id;
+            }
+        }
+        foreach ($ids as $id) {
+            if ( ! in_array($id, $teacher)) {
+                $deletes[] = $id;
+            }
+        }
+        if ($this->checkRepeat($start, $end, $adds) && ! $confirm) {
+            return array(
+                'type' => 'confirm',
+                'msg' => $this->msg,
+            );
+        }
+        $sql = 'UPDATE `exam` `e`
+            SET `e`.`name` = :name, `e`.`start` = :start, `e`.`end` = :end, `e`.`address` = :address
+            WHERE `e`.`id` = :id
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'name' => $subject,
+            'start' => $start,
+            'end' => $end,
+            'address' => $address,
+            'id' => $id,
+        ));
+
+        if (count($deletes) != 0) {
+            $sql = 'DELETE FROM `exam_teacher` `et`
+            WHERE `et`.`e_id` = :id
+            AND `et`.`t_id` IN (' . implode(', ', $deletes) . ')';
+            $stmt = $conn->prepare($sql);
+            $stmt->execute(array('id' => $id));
+        }
+
+        if (count($adds) != 0) {
+            $sql = 'INSERT INTO `exam_teacher`(`e_id`, `t_id`) VALUES(:e, :t0)';
+            $arr = array(
+                'e' => $id,
+                't0' => $adds[0]
+            );
+            for ($i = 1, $loop = count($adds); $i < $loop; $i++) {
+                $sql .= ', (:e, :t' . $i . ')';
+                $arr['t' . $i] = $adds[1];
+            }
+            $stmt = $conn->prepare($sql);
+            $stmt->execute($arr);
+        }
+        return true;
     }
 
     public function deleteExam($id)
