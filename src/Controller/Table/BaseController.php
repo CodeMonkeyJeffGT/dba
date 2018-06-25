@@ -4,6 +4,8 @@ namespace App\Controller\Table;
 
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\BaseController as Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BaseController extends Controller
 {
@@ -13,7 +15,7 @@ class BaseController extends Controller
     private $tableData;
     private $actions;
 
-    protected function return($data = false)
+    protected function return($data = false): JsonResponse
     {
         if (false === $data) {
             $data = array(
@@ -52,7 +54,7 @@ class BaseController extends Controller
         $this->actions = $actions;
     }
 
-    public function index()
+    public function index(): Response
     {
         $config = $this->getConfig();
         $config['return'] = $this->toJs($config['return']);
@@ -61,7 +63,7 @@ class BaseController extends Controller
         return $this->render('base/api.html', $config);
     }
     
-    protected function getConfig()
+    protected function getConfig(): array
     {
         return array(
             'name' => 'GET /api/table/{key}',
@@ -71,6 +73,11 @@ class BaseController extends Controller
                     'name' => '/api/table/exam',
                     'desc' => '获取考试信息',
                     'uri' => $this->generateUrl('table-exam'),
+                ),
+                array(
+                    'name' => '/api/table/teacher',
+                    'desc' => '获取教师信息',
+                    'uri' => $this->generateUrl('table-teacher'),
                 ),
             ),
             'params' => array(

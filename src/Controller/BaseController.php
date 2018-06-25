@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BaseController extends Controller
 {
-    protected function return($data)
+    protected function return($data): JsonResponse
     {
         return $this->json(array(
             'data' => $data,
@@ -15,7 +17,7 @@ class BaseController extends Controller
         ));
     }
 
-    protected function confirm($msg)
+    protected function confirm($msg): JsonResponse
     {
         return $this->json(array(
             'data' => null,
@@ -24,7 +26,7 @@ class BaseController extends Controller
         ));
     }
 
-    protected function error($msg)
+    protected function error($msg): JsonResponse
     {
         return $this->json(array(
             'data' => null,
@@ -36,14 +38,14 @@ class BaseController extends Controller
     /**
      * 显示所有可用方法
      */
-    public function index()
+    public function index(): Response
     {
         return $this->render('base/doc.html', array(
             'tree' => $this->getConfig()
         ));
     }
 
-    public function mockreturn()
+    public function mockreturn(): JsonResponse
     {
         $response = $this->json($this->getConfig()['return']);
         $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
@@ -53,7 +55,7 @@ class BaseController extends Controller
         return $response;
     }
 
-    public function mockconfirm()
+    public function mockconfirm(): JsonResponse
     {
         $response = $this->json($this->getConfig()['confirm']);
         $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
@@ -63,7 +65,7 @@ class BaseController extends Controller
         return $response;
     }
 
-    public function mockerror()
+    public function mockerror(): JsonResponse
     {
         $response = $this->json($this->getConfig()['error']);
         $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
@@ -76,7 +78,7 @@ class BaseController extends Controller
     /**
      * 获取当前层级所有可用接口/下级目录
      */
-    protected function getConfig()
+    protected function getConfig(): array
     {
         return array(
             array(
@@ -97,7 +99,7 @@ class BaseController extends Controller
     /**
      * 数组转换为js数组
      */
-    protected function toJs($arr, $level = 1)
+    protected function toJs($arr, $level = 1): string
     {
         $tpl = "{\n%s},";
         if (array_values($arr) == $arr) {

@@ -4,10 +4,11 @@ namespace App\Controller\Menu;
 
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Menu\BaseController as Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class IndexController extends Controller
 {
-    public function list()
+    public function list(): JsonResponse
     {
         $this->setMenu(array(
             array(

@@ -3,12 +3,13 @@ namespace App\Controller\Multselect;
 
 use App\Controller\BaseController as Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BaseController extends Controller
 {
     private $multselect;
 
-    protected function return($data = false)
+    protected function return($data = false): JsonResponse
     {
         if ($data === false) {
             $data = $this->multselect;
@@ -20,7 +21,7 @@ class BaseController extends Controller
     {
         $this->multselect = $multselect;
     }
-    public function index()
+    public function index(): Response
     {
         $config = $this->getConfig();
         $config['return'] = $this->toJs($config['return']);
@@ -29,7 +30,7 @@ class BaseController extends Controller
         return $this->render('base/api.html', $config);
     }
     
-    protected function getConfig()
+    protected function getConfig(): array
     {
         return array(
             'name' => 'GET /api/multselect/{key}',

@@ -19,6 +19,11 @@ class TeacherRepository extends ServiceEntityRepository
         parent::__construct($registry, Teacher::class);
     }
 
+    public function getMultselect($search): array
+    {
+
+    }
+
 //    /**
 //     * @return Teacher[] Returns an array of Teacher objects
 //     */

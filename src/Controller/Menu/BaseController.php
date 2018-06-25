@@ -3,12 +3,13 @@ namespace App\Controller\Menu;
 
 use App\Controller\BaseController as Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BaseController extends Controller
 {
     private $menu;
 
-    protected function return($data = false)
+    protected function return($data = false): JsonResponse
     {
         if (false === $data) {
             $data = $this->menu;
@@ -21,7 +22,7 @@ class BaseController extends Controller
         $this->menu = $menu;
     }
 
-    public function index()
+    public function index(): Response
     {
         $config = $this->getConfig();
         $config['return'] = $this->toJs($config['return']);
@@ -30,7 +31,7 @@ class BaseController extends Controller
         return $this->render('base/api.html', $config);
     }
     
-    protected function getConfig()
+    protected function getConfig(): array
     {
         return array(
             'name' => 'GET /api/menu',
