@@ -123,6 +123,7 @@ class ExamRepository extends ServiceEntityRepository
                 $deletes[] = $id;
             }
         }
+        var_dump($deletes);die;
         if ($this->checkRepeat($start, $end, $adds) && ! $confirm) {
             return array(
                 'type' => 'confirm',
@@ -168,7 +169,32 @@ class ExamRepository extends ServiceEntityRepository
 
     public function deleteExam($id)
     {
-        
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT `e`.`id`
+        FROM `exam` `e`
+        WHERE `e`.`id` = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+        if (count($stmt->fetchAll()) == 0) {
+            return false;
+        }
+
+        $sql = 'DELETE FROM `exam`
+        WHERE `exam`.`id` = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+
+        $sql = 'DELETE FROM `exam_teacher`
+        WHERE `exam_teacher`.`e_id` = :id';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+        return true;
     }
 
     public function remindExam($id)

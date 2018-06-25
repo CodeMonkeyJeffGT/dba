@@ -253,28 +253,18 @@ class ExamController extends Controller
                 'title' => '编辑',
                 'value' => 'edit',
                 'uri' => '/api/table/exam/edit',
-                'params' => array(
-                    'id',
-                    'confirm',
-                ),
                 'method' => 'post',
             ),
             array(
                 'title' => '删除',
                 'value' => 'delete',
                 'uri' => '/api/table/exam/delete',
-                'params' => array(
-                    'id',
-                ),
                 'method' => 'post',
             ),
             array(
                 'title' => '发送短信提醒',
                 'value' => 'remind',
                 'uri' => '/api/table/exam/remind',
-                'params' => array(
-                    'id',
-                ),
                 'method' => 'post',
             ),
         ));

@@ -217,19 +217,12 @@ class TeacherController extends Controller
                 'title' => '编辑',
                 'value' => 'edit',
                 'uri' => '/api/teacher/edit',
-                'params' => array(
-                    'id',
-                    'confirm',
-                ),
                 'method' => 'post',
             ),
             array(
                 'title' => '删除',
                 'value' => 'delete',
                 'uri' => '/api/teacher/delete',
-                'params' => array(
-                    'id',
-                ),
                 'method' => 'post',
             ),
         ));
