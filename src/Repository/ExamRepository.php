@@ -38,7 +38,7 @@ class ExamRepository extends ServiceEntityRepository
                 ';
                 break;
         }
-        $sql = 'SELECT `e`.*, `t`.`name` `teacher`
+        $sql = 'SELECT `e`.*, `t`.`name` `teacher`, `t`.`id` `t_id`
         FROM `exam` `e`
         LEFT JOIN `exam_teacher` `et` ON `e`.`id` = `et`.`e_id`
         LEFT JOIN `teacher` `t` ON `et`.`t_id` = `t`.`id`
@@ -109,14 +109,14 @@ class ExamRepository extends ServiceEntityRepository
                 $rst[$arr[$i]['id']] = array(
                     'key' => (int)$arr[$i]['id'],
                     'id' => (int)$arr[$i]['id'],
-                    'name' => $arr[$i]['name'],
+                    'subject' => $arr[$i]['name'],
                     'start' => $arr[$i]['start'],
                     'end' => $arr[$i]['end'],
                     'address' => $arr[$i]['address'],
-                    'teacher' => array($arr[$i]['teacher']),
+                    'teacher' => array($arr[$i]['teacher'] . '-' . $arr[$i]['t_id']),
                 );
             } else {
-                $rst[$arr[$i]['id']]['teacher'][] = $arr[$i]['teacher'];
+                $rst[$arr[$i]['id']]['teacher'][] = $arr[$i]['teacher'] . '-' . $arr[$i]['t_id'];
             }
         }
         return array_values($rst);
