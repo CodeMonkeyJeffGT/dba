@@ -3,13 +3,37 @@
 #    controller: App\Controller\DefaultController::index
 menu:
     path: /api/menu
-    controller: App\Controller\Menu\IndexController::index
+    controller: App\Controller\Menu\IndexController::list
+
 multselect-teacher:
     path: /api/multselect/teacher
-    controller: App\Controller\Multselect\TeacherController::index
+    controller: App\Controller\Multselect\TeacherController::search
+
 table-exam:
     path: /api/table/exam
-    controller: App\Controller\Table\ExamController::index
+    controller: App\Controller\Table\ExamController::search
+table-exam-edit:
+    path: /api/table/exam/edit
+    controller: App\Controller\Table\ExamController::edit
+table-exam-delete:
+    path: /api/table/exam/delete
+    controller: App\Controller\Table\ExamController::delete
+table-exam-remind:
+    path: /api/table/exam/remind
+    controller: App\Controller\Table\ExamController::remind
+
+table-teacher:
+    path: /api/table/teacher
+    controller: App\Controller\Table\TeacherController::search
+table-teacher-delete:
+    path: /api/table/teacher/delete
+    controller: App\Controller\Table\TeacherController::delete
+table-teacher-permit:
+    path: /api/table/teacher/permit
+    controller: App\Controller\Table\TeacherController::changePermit
+table-teacher-edit:
+    path: /api/table/teacher
+    controller: App\Controller\Table\TeacherController::edit
 
 doc-index:
     path: /
@@ -19,36 +43,36 @@ api-menu:
     controller: App\Controller\Menu\BaseController::index
 mock-menu-return:
     path: /mock/menu/return
-    controller: App\Controller\Menu\BaseController::return
+    controller: App\Controller\Menu\BaseController::mockreturn
 mock-menu-confirm:
     path: /mock/menu/confirm
-    controller: App\Controller\Menu\BaseController::confirm
+    controller: App\Controller\Menu\BaseController::mockconfirm
 mock-menu-error:
     path: /mock/menu/error
-    controller: App\Controller\Menu\BaseController::error
+    controller: App\Controller\Menu\BaseController::mockerror
 
 api-multselect:
     path: /api-multselect
     controller: App\Controller\Multselect\BaseController::index
 mock-multselect-return:
     path: /mock/multselect/return
-    controller: App\Controller\Multselect\BaseController::return
+    controller: App\Controller\Multselect\BaseController::mockreturn
 mock-multselect-confirm:
     path: /mock/multselect/confirm
-    controller: App\Controller\Multselect\BaseController::confirm
+    controller: App\Controller\Multselect\BaseController::mockconfirm
 mock-multselect-error:
     path: /mock/multselect/error
-    controller: App\Controller\Multselect\BaseController::error
+    controller: App\Controller\Multselect\BaseController::mockerror
 
 api-table:
     path: /api-table
     controller: App\Controller\Table\BaseController::index
 mock-table-return:
     path: /mock/table/return
-    controller: App\Controller\Table\BaseController::return
+    controller: App\Controller\Table\BaseController::mockreturn
 mock-table-confirm:
     path: /mock/table/confirm
-    controller: App\Controller\Table\BaseController::confirm
+    controller: App\Controller\Table\BaseController::mockconfirm
 mock-table-error:
     path: /mock/table/error
-    controller: App\Controller\Table\BaseController::error
+    controller: App\Controller\Table\BaseController::mockerror

@@ -7,13 +7,46 @@ use App\Controller\Menu\BaseController as Controller;
 
 class IndexController extends Controller
 {
-    /**
-     * @Route("/menu/index", name="menu_index")
-     */
-    public function index()
+    public function list()
     {
-        return $this->render('menu/index/index.html.twig', [
-            'controller_name' => 'IndexController',
-        ]);
+        $this->setMenu(array(
+            array(
+                'title' => '监考管理',
+                'children' => array(
+                    array(
+                        'key' => 'exam',
+                        'title' => '全部监考',
+                        'uri' => $this->generateUrl('table-exam'),
+                    ),
+                    array(
+                        'key' => 'exam-unassigned',
+                        'title' => '未分配监考',
+                        'uri' => $this->generateUrl('table-exam', array(
+                            'status' => 'unassigned',
+                        )),
+                    ),
+                    array(
+                        'key' => 'exam-assigned',
+                        'title' => '已分配监考',
+                        'uri' => $this->generateUrl('table-exam', array(
+                            'status' => 'assigned',
+                        )),
+                    ),
+                    array(
+                        'key' => 'exam-completed',
+                        'title' => '已完成监考',
+                        'uri' => $this->generateUrl('table-exam', array(
+                            'status' => 'completed',
+                        )),
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'teacher',
+                'title' => '用户管理',
+                'uri' => $this->generateUrl('table-teacher'),
+            ),
+        ));
+        return $this->return();
     }
 }

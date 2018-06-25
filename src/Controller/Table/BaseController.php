@@ -7,6 +7,51 @@ use App\Controller\BaseController as Controller;
 
 class BaseController extends Controller
 {
+    private $tableSearch;
+    private $buttons;
+    private $colums;
+    private $tableData;
+    private $actions;
+
+    protected function return($data = false)
+    {
+        if (false === $data) {
+            $data = array(
+                'tableSearch' => $this->tableSearch,
+                'buttons' => $this->buttons,
+                'colums' => $this->colums,
+                'tableData' => $this->tableData,
+                'actions' => $this->actions,
+            );
+        }
+        return parent::return($data);
+    }
+
+    protected function setTableSearch($tableSearch)
+    {
+        $this->tableSearch = $tableSearch;
+    }
+
+    protected function setButtons($buttons)
+    {
+        $this->buttons = $buttons;
+    }
+
+    protected function setColums($colums)
+    {
+        $this->colums = $colums;
+    }
+
+    protected function setTableData($tableData)
+    {
+        $this->tableData = $tableData;
+    }
+
+    protected function setActions($actions)
+    {
+        $this->actions = $actions;
+    }
+
     public function index()
     {
         $config = $this->getConfig();
@@ -19,11 +64,11 @@ class BaseController extends Controller
     protected function getConfig()
     {
         return array(
-            'name' => 'GET /table/{key}',
+            'name' => 'GET /api/table/{key}',
             'desc' => '获取多选框内容',
             'uri' => array(
                 array(
-                    'name' => '/table/exam',
+                    'name' => '/api/table/exam',
                     'desc' => '获取考试信息',
                     'uri' => $this->generateUrl('table-exam'),
                 ),

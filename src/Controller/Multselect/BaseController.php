@@ -6,6 +6,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BaseController extends Controller
 {
+    private $multselect;
+
+    protected function return($data = false)
+    {
+        if ($data === false) {
+            $data = $this->multselect;
+        }
+        return parent::return($data);
+    }
+
+    protected function setMultselect($multselect)
+    {
+        $this->multselect = $multselect;
+    }
     public function index()
     {
         $config = $this->getConfig();
@@ -18,11 +32,11 @@ class BaseController extends Controller
     protected function getConfig()
     {
         return array(
-            'name' => 'GET /multselect/{key}',
+            'name' => 'GET /api/multselect/{key}',
             'desc' => '获取多选框内容',
             'uri' => array(
                 array(
-                    'name' => '/multselect/teacher',
+                    'name' => '/api/multselect/teacher',
                     'desc' => '获取可选教师',
                     'uri' => $this->generateUrl('multselect-teacher'),
                 ),

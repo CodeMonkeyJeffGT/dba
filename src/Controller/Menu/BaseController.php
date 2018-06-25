@@ -6,6 +6,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BaseController extends Controller
 {
+    private $menu;
+
+    protected function return($data = false)
+    {
+        if (false === $data) {
+            $data = $this->menu;
+        }
+        return parent::return($data);
+    }
+
+    protected function setMenu($menu)
+    {
+        $this->menu = $menu;
+    }
+
     public function index()
     {
         $config = $this->getConfig();
@@ -18,11 +33,11 @@ class BaseController extends Controller
     protected function getConfig()
     {
         return array(
-            'name' => 'GET /menu',
+            'name' => 'GET /api/menu',
             'desc' => '获取菜单（此接口无下级接口）',
             'uri' => array(
                 array(
-                    'name' => '/menu',
+                    'name' => '/api/menu',
                     'desc' => '获取菜单',
                     'uri' => $this->generateUrl('menu'),
                 ),
@@ -42,18 +57,28 @@ class BaseController extends Controller
                             array(
                                 'key' => 'exam',
                                 'title' => '全部监考',
+                                'uri' => $this->generateUrl('table-exam'),
                             ),
                             array(
                                 'key' => 'exam-unassigned',
                                 'title' => '未分配监考',
+                                'uri' => $this->generateUrl('table-exam', array(
+                                    'status' => 'unassigned',
+                                )),
                             ),
                             array(
                                 'key' => 'exam-assigned',
                                 'title' => '已分配监考',
+                                'uri' => $this->generateUrl('table-exam', array(
+                                    'status' => 'assigned',
+                                )),
                             ),
                             array(
                                 'key' => 'exam-completed',
                                 'title' => '已完成监考',
+                                'uri' => $this->generateUrl('table-exam', array(
+                                    'status' => 'completed',
+                                )),
                             ),
                         ),
                     ),

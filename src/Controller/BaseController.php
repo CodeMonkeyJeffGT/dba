@@ -6,6 +6,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BaseController extends Controller
 {
+    protected function return($data)
+    {
+        return $this->json(array(
+            'data' => $data,
+            'errno' => 0,
+            'errmsg' => 'OK',
+        ));
+    }
+
+    protected function confirm($msg)
+    {
+        return $this->json(array(
+            'data' => null,
+            'errno' => 2,
+            'errmsg' => $msg,
+        ));
+    }
+
+    protected function error($msg)
+    {
+        return $this->json(array(
+            'data' => null,
+            'errno' => 1,
+            'errmsg' => $msg,
+        ));
+    }
+
     /**
      * 显示所有可用方法
      */
@@ -16,7 +43,7 @@ class BaseController extends Controller
         ));
     }
 
-    public function return()
+    public function mockreturn()
     {
         $response = $this->json($this->getConfig()['return']);
         $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
@@ -26,7 +53,7 @@ class BaseController extends Controller
         return $response;
     }
 
-    public function confirm()
+    public function mockconfirm()
     {
         $response = $this->json($this->getConfig()['confirm']);
         $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
@@ -36,7 +63,7 @@ class BaseController extends Controller
         return $response;
     }
 
-    public function error()
+    public function mockerror()
     {
         $response = $this->json($this->getConfig()['error']);
         $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
