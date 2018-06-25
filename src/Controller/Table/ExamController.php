@@ -32,13 +32,13 @@ class ExamController extends Controller
     public function edit(Request $request): JsonResponse
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
-        $id = $request->request->get('id', null);
-        $subject = $request->request->get('subject', null);
-        $start = $request->request->get('start', null);
-        $end = $request->request->get('end', null);
-        $address = $request->request->get('address', null);
-        $teacher = $request->request->get('teacher', array());
-        $confirm = $request->request->get('confirm', false);
+        $id = $this->request('id', null);
+        $subject = $this->request('subject', null);
+        $start = $this->request('start', null);
+        $end = $this->request('end', null);
+        $address = $this->request('address', null);
+        $teacher = $this->request('teacher', array());
+        $confirm = $this->request('confirm', false);
 
         if (empty($subject)) {
             return $this->error('课程名称不能为空');
@@ -69,7 +69,7 @@ class ExamController extends Controller
     public function delete(Request $request): JsonResponse
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
-        $id = $request->request->get('id', null);
+        $id = $this->request('id', null);
         if (empty($id)) {
             return $this->error('未指定id');
         }
@@ -82,7 +82,7 @@ class ExamController extends Controller
     public function remind(Request $request): JsonResponse
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
-        $id = $request->request->get('id', null);
+        $id = $this->request('id', null);
         if (empty($id)) {
             return $this->error('未指定id');
         }
@@ -95,12 +95,12 @@ class ExamController extends Controller
     public function new(Request $request): JsonResponse
     {
         $examDb = $this->getDoctrine()->getRepository(Exam::class);
-        $subject = $request->request->get('subject', null);
-        $start = $request->request->get('start', null);
-        $end = $request->request->get('end', null);
-        $address = $request->request->get('address', null);
-        $teacher = $request->request->get('teacher', array());
-        $confirm = $request->request->get('confirm', false);
+        $subject = $this->request('subject', null);
+        $start = $this->request('start', null);
+        $end = $this->request('end', null);
+        $address = $this->request('address', null);
+        $teacher = $this->request('teacher', array());
+        $confirm = $this->request('confirm', false);
 
         if (empty($subject)) {
             return $this->error('课程名称不能为空');

@@ -8,6 +8,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BaseController extends Controller
 {
+    protected $request;
+
+    protected function request($name, $default = null)
+    {
+        if (is_null($this->request)) {
+            $this->request = json_decode(file_get_contents('php://input'), true);
+        }
+        if (isset($this->request[$name])) {
+            return $this->request[$name];
+        } else {
+            return $default;
+        }
+    }
+
     protected function return($data): JsonResponse
     {
         $response = $this->json(array(

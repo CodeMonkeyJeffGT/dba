@@ -22,9 +22,9 @@ class TeacherController extends Controller
     public function edit(Request $request): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        $id = $request->request->get('id', null);
-        $name = $request->request->get('name', null);
-        $phone = $request->request->get('phone', null);
+        $id = $this->request('id', null);
+        $name = $this->request('name', null);
+        $phone = $this->request('phone', null);
 
         if (empty($name)) {
             return $this->error('教师姓名不能为空');
@@ -49,7 +49,7 @@ class TeacherController extends Controller
     public function delete(Request $request): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        $id = $request->request->get('id', null);
+        $id = $this->request('id', null);
         
         if (empty($id)) {
             return $this->error('未指定id');
@@ -68,7 +68,7 @@ class TeacherController extends Controller
     public function changePermit(Request $request): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        $id = $request->request->get('id', null);
+        $id = $this->request('id', null);
         
         if (empty($id)) {
             return $this->error('未指定id');
@@ -87,10 +87,10 @@ class TeacherController extends Controller
     public function new(Request $request): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        $name = $request->request->get('name', null);
-        $account = $request->request->get('account', null);
-        $password = $request->request->get('password', null);
-        $phone = $request->request->get('phone', null);
+        $name = $this->request('name', null);
+        $account = $this->request('account', null);
+        $password = $this->request('password', null);
+        $phone = $this->request('phone', null);
 
         if (empty($name)) {
             return $this->error('教师姓名不能为空');
