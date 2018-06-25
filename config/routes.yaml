@@ -34,6 +34,9 @@ table-teacher-delete:
 table-teacher-permit:
     path: /api/table/teacher/permit
     controller: App\Controller\Table\TeacherController::changePermit
+table-teacher-new:
+    path: /api/table/teacher/new
+    controller: App\Controller\Table\TeacherController::new
 
 doc-index:
     path: /

@@ -37,6 +37,12 @@ class TeacherController extends Controller
         return $this->search($request);        
     }
 
+    public function new(): JsonResponse
+    {
+        $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
+        return $this->search($request);        
+    }
+
     private function setDefaults()
     {
         $this->setTableSearch(array(
@@ -56,7 +62,7 @@ class TeacherController extends Controller
                     'teacher',
                 ),
                 'type' => 'uri',
-                'uri' => '/tableSearch/exam',
+                'uri' => '/table/teacher',
                 'method' => 'get',
             ),
             array(
@@ -84,7 +90,7 @@ class TeacherController extends Controller
                         'type' => 'input',
                     ),
                 ),
-                'uri' => '/tableSearch/exam/new',
+                'uri' => '/table/teacher/new',
                 'method' => 'post',
             ),
         ));
@@ -107,22 +113,10 @@ class TeacherController extends Controller
                 'type' => 'input',
             ),
             array(
-                'title' => '结束时间',
-                'dataIndex' => 'end',
-                'key' => 'end',
-                'type' => 'time',
-            ),
-            array(
-                'title' => '地点',
-                'dataIndex' => 'address',
-                'key' => 'address',
+                'title' => '手机号',
+                'dataIndex' => 'phone',
+                'key' => 'phone',
                 'type' => 'input',
-            ),
-            array(
-                'title' => '监考教师',
-                'dataIndex' => 'teacher',
-                'key' => 'teacher',
-                'type' => 'multselect',
             ),
         ));
         $this->setActions(array(
@@ -133,7 +127,7 @@ class TeacherController extends Controller
             array(
                 'title' => '编辑',
                 'value' => 'edit',
-                'uri' => '/tablesearch/edit',
+                'uri' => '/api/teacher/edit',
                 'params' => array(
                     'id',
                     'confirm',
@@ -143,16 +137,7 @@ class TeacherController extends Controller
             array(
                 'title' => '删除',
                 'value' => 'uri',
-                'uri' => '/tablesearch/delete',
-                'params' => array(
-                    'id',
-                ),
-                'method' => 'post',
-            ),
-            array(
-                'title' => '发送短信提醒',
-                'value' => 'uri',
-                'uri' => '/tablesearch/remind',
+                'uri' => '/api/teacher/delete',
                 'params' => array(
                     'id',
                 ),

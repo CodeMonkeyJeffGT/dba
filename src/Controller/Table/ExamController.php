@@ -87,6 +87,35 @@ class ExamController extends Controller
         return $this->search($request);
     }
 
+    public function new(): JsonResponse
+    {
+        $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
+        $id = $request->request->get('id', null);
+        $name = $request->request->get('name', null);
+        $start = $request->request->get('start', null);
+        $end = $request->request->get('end', null);
+        $address = $request->request->get('address', null);
+        $teacher = $request->request->get('teacher', array());
+
+        if (empty($name)) {
+            $this->error('课程名称不能为空');
+        }
+        if (strtotime($start) < time()) {
+            $this->error('开始时间不能晚于当前时间');
+        }
+        if (strtotime($start) < strtotime($end)) {
+            $this->error('结束时间不能晚于开始时间');
+        }
+        if (empty($address)) {
+            $this->error('考试地点不能为空');
+        }
+        if (empty($id)) {
+            $this->error('未指定id');
+        }
+        $examDb->insExam($id, $name, $start, $end, $address, $teacher);
+        return $this->search($request);        
+    }
+
     private function setDefaults()
     {
         $this->setTableSearch(array(
@@ -116,7 +145,7 @@ class ExamController extends Controller
                     'teacher',
                 ),
                 'type' => 'uri',
-                'uri' => '/tableSearch/exam',
+                'uri' => '/api/table/exam',
                 'method' => 'get',
             ),
             array(
@@ -149,7 +178,7 @@ class ExamController extends Controller
                         'type' => 'multselect',
                     ),
                 ),
-                'uri' => '/tableSearch/exam/new',
+                'uri' => '/api/table/exam/new',
                 'method' => 'post',
             ),
         ));
@@ -198,7 +227,7 @@ class ExamController extends Controller
             array(
                 'title' => '编辑',
                 'value' => 'edit',
-                'uri' => '/tablesearch/edit',
+                'uri' => '/api/table/exam/edit',
                 'params' => array(
                     'id',
                     'confirm',
@@ -208,7 +237,7 @@ class ExamController extends Controller
             array(
                 'title' => '删除',
                 'value' => 'uri',
-                'uri' => '/tablesearch/delete',
+                'uri' => '/api/table/exam/delete',
                 'params' => array(
                     'id',
                 ),
@@ -217,7 +246,7 @@ class ExamController extends Controller
             array(
                 'title' => '发送短信提醒',
                 'value' => 'uri',
-                'uri' => '/tablesearch/remind',
+                'uri' => '/api/table/exam/remind',
                 'params' => array(
                     'id',
                 ),
