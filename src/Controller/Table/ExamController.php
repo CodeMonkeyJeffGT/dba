@@ -65,7 +65,7 @@ class ExamController extends Controller
         }
 
         $rst = $examDb->editExam($id, $subject, $start, $end, $address, $teacher, $confirm);
-        if ($rst == true) {
+        if ($rst === true) {
             return $this->search($request);
         } elseif ($rst['type'] = 'confirm') {
             return $this->confirm($rst['msg']);
