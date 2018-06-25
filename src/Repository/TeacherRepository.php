@@ -21,7 +21,32 @@ class TeacherRepository extends ServiceEntityRepository
 
     public function getMultselect($search): array
     {
+        $conn = $this->getEntityManager()->getConnection();
+        $searchLike = $this->toLike($search);
+        $sql = 'SELECT `t1`.`id` `id`, `t1`.`name` `name`
+        FROM `teacher` `t1`
+        WHERE `t1`.`name` LIKE :search
+        UNION
+        SELECT `t2`.`id` `id`, `t2`.`name` `name`
+        FROM `teacher` `t2`
+        WHERE `t2`.`name` LIKE :search_like
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'search' => '%' . $search . '%',
+            'search_like' => $searchLike,
+        ));
 
+        $rst = $stmt->fetchAll();
+        return $rst;
+    }
+
+    private function toLike($str): string
+    {
+        for ($i = 0, $loop = mb_strlen($str); $i < $loop; $i++) {
+            $str = mb_substr($str, 0, $i * 2) . '%' . mb_substr($str, $i * 2, $i + $loop);
+        }
+        return $str . '%';
     }
 
 //    /**

@@ -14,7 +14,8 @@ class TeacherController extends Controller
     public function search(Request $request): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        $this->setMultselect($teacherDb->getMultselect());     
+        $search = $request->query->get('search', '');
+        $this->setMultselect($teacherDb->getMultselect($search));     
         return $this->return();
     }
 }
