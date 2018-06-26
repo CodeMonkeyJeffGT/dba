@@ -44,7 +44,7 @@ class IndexController extends Controller
             ),
             array(
                 'key' => 'teacher',
-                'title' => '用户管理',
+                'title' => '教师信息',
                 'uri' => $this->generateUrl('table-teacher'),
             ),
         ));
