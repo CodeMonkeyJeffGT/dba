@@ -205,13 +205,13 @@ class TeacherController extends Controller
             array(
                 'title' => '编辑',
                 'value' => 'edit',
-                'uri' => '/api/teacher/edit',
+                'uri' => '/api/table/teacher/edit',
                 'method' => 'post',
             ),
             array(
                 'title' => '删除',
                 'value' => 'delete',
-                'uri' => '/api/teacher/delete',
+                'uri' => '/api/table/teacher/delete',
                 'method' => 'post',
             ),
         ));

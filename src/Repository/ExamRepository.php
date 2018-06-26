@@ -267,8 +267,10 @@ class ExamRepository extends ServiceEntityRepository
                 `e`.`end` >= :start
                 AND `e`.`end` <= :end
             )
-            AND `t`.`id` IN (' . implode(', ', $teacher) . ')
         ';
+        if (count($teacher) != 0) {
+            $sql .= 'AND `t`.`id` IN (' . implode(', ', $teacher) . ')';
+        }
         $stmt = $conn->prepare($sql);
         $stmt->execute(array(
             'start' => $start,
