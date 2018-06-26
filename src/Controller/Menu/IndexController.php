@@ -45,9 +45,11 @@ class IndexController extends Controller
             array(
                 'title' => '人员管理',
                 'children' => array(
-                    'title' => '教师信息',
-                    'key' => 'teacher',
-                    'uri' => $this->generateUrl('table-teacher'),
+                    array(
+                        'title' => '教师信息',
+                        'key' => 'teacher',
+                        'uri' => $this->generateUrl('table-teacher'),
+                    ),
                 ),
             ),
         ));
