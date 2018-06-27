@@ -30,7 +30,7 @@ class ExamRepository extends ServiceEntityRepository
                 $sqlStatus = 'AND `t`.`name` IS NOT NULL AND `e`.`start` > "' . date('Y-m-d H:i:s', time()) . '"';
                 break;
             case 'completed':
-                $sqlStatus = 'AND `e`.`start` =< "' . date('Y-m-d H:i:s', time()) . '"';
+                $sqlStatus = 'AND `e`.`start` <= "' . date('Y-m-d H:i:s', time()) . '"';
                 break;
         }
         $sql = 'SELECT `e`.*, `t`.`name` `teacher`, `t`.`id` `t_id`
