@@ -11,6 +11,11 @@ use App\Entity\Exam;
 class ExamController extends Controller
 {
 
+    public function __construct()
+    {
+        date_default_timezone_set('PRC');
+    }
+
     /**
      * 获取考试信息
      * @param string $subject 监考课程名称
