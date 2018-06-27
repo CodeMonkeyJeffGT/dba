@@ -13,6 +13,26 @@ class TeacherRepository extends ServiceEntityRepository
         parent::__construct($registry, Teacher::class);
     }
 
+    public function login($account, $password)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT `id`
+            FROM `teacher`
+            WHERE `account` = :account
+            AND `password` = :password
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'account' => $account,
+            'password' => $password,
+        ));
+        if (count($id = $stmt->fetchAll())) {
+            return $id[0]['id'];
+        } else {
+            return false;
+        }
+    }
+
     public function checkPermit($id): bool
     {
         $conn = $this->getEntityManager()->getConnection();
