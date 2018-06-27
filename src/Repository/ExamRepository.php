@@ -24,13 +24,13 @@ class ExamRepository extends ServiceEntityRepository
         $sqlStatus = '';
         switch ($status) {
             case 'unassigned':
-                $sqlStatus = 'AND `t`.`name` IS NULL';
+                $sqlStatus = 'AND `t`.`name` IS NULL AND `e`.`start` > "' . date('Y-m-d H:i:s', time()) . '"';
                 break;
             case 'assigned':
-                $sqlStatus = 'AND `t`.`name` IS NOT NULL';
+                $sqlStatus = 'AND `t`.`name` IS NOT NULL AND `e`.`start` > "' . date('Y-m-d H:i:s', time()) . '"';
                 break;
             case 'completed':
-                $sqlStatus = 'AND `e`.`start` < "' . date('Y-m-d H:i:s', time()) . '"';
+                $sqlStatus = 'AND `e`.`start` =< "' . date('Y-m-d H:i:s', time()) . '"';
                 break;
         }
         $sql = 'SELECT `e`.*, `t`.`name` `teacher`, `t`.`id` `t_id`
@@ -292,6 +292,11 @@ class ExamRepository extends ServiceEntityRepository
         $rst = array();
         for ($i = 0, $loop = count($arr); $i < $loop; $i++) {
             if ( ! isset($rst[$arr[$i]['id']])) {
+                if (null !== $arr[$i]['teacher']) {
+                    $teacher = array($arr[$i]['teacher'] . '-' . $arr[$i]['t_id']);
+                } else {
+                    $teacher = array();
+                }
                 $rst[$arr[$i]['id']] = array(
                     'key' => (int)$arr[$i]['id'],
                     'id' => (int)$arr[$i]['id'],
@@ -299,7 +304,7 @@ class ExamRepository extends ServiceEntityRepository
                     'start' => $arr[$i]['start'],
                     'end' => $arr[$i]['end'],
                     'address' => $arr[$i]['address'],
-                    'teacher' => array($arr[$i]['teacher'] . '-' . $arr[$i]['t_id']),
+                    'teacher' => $teacher,
                 );
             } else {
                 $rst[$arr[$i]['id']]['teacher'][] = $arr[$i]['teacher'] . '-' . $arr[$i]['t_id'];
