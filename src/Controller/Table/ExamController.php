@@ -30,6 +30,20 @@ class ExamController extends Controller
         $address = $request->query->get('address', '');
         $teacher = $request->query->get('teacher', '');
         $status = $request->query->get('status', 'all');
+        if ($status == 'completed') {
+            $this->setActions(array(
+                array(
+                    'title' => '查看',
+                    'value' => 'watch',
+                ),
+                array(
+                    'title' => '删除',
+                    'value' => 'delete',
+                    'uri' => '/api/table/exam/delete',
+                    'method' => 'post',
+                ),
+            ));
+        }
         $this->setTableData($examDb->getTableData($subject, $address, $teacher, $status));
         return $this->return();
     }

@@ -21,7 +21,7 @@ class ExamRepository extends ServiceEntityRepository
         $nameLike = $this->toLike($name);
         $addressLike = $this->toLike($address);
         $teacherLike = $this->toLike($teacher);
-        $sqlStatus = '';
+        $sqlStatus = 'AND `e`.`start` > "' . date('Y-m-d H:i:s', time()) . '"';
         switch ($status) {
             case 'unassigned':
                 $sqlStatus = 'AND `t`.`name` IS NULL AND `e`.`start` > "' . date('Y-m-d H:i:s', time()) . '"';
