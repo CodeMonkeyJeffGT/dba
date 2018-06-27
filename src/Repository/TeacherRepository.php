@@ -13,6 +13,28 @@ class TeacherRepository extends ServiceEntityRepository
         parent::__construct($registry, Teacher::class);
     }
 
+    public function checkPermit($id): bool
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT `admin`
+            FROM `teacher`
+            WHERE `id` = :id
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
+        try {
+            if ($stmt->fetchAll()[0]['admin']) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
     public function getMultselect($search): array
     {
         $conn = $this->getEntityManager()->getConnection();

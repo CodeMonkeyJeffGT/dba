@@ -5,21 +5,44 @@ namespace App\Controller\Table;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Table\BaseController as Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Teacher;
 
 class TeacherController extends Controller
 {
-    public function search(Request $request): JsonResponse
+    public function login(SessionInterface $session): JsonResponse
+    {
+        $account = $this->request('account', null);
+        $password = $this->request('password', null);
+        $password = strtoupper(md5($password));
+        $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
+        if ($id = $teacherDb->login($account, $password) !== false) {
+            $session->set('id', $id);
+            $this->success();
+        } else {
+            $this->error();
+        }
+    }
+
+    public function search(Request $request, SessionInterface $session): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         $this->setDefaults();
+        if ( ! $teacherDb->checkPermit($session->get('id'))) {
+            $this->setActions(array(
+                array(
+                    'title' => '查看',
+                    'value' => 'watch',
+                ),
+            ));
+        }
         $name = $request->query->get('name', '');
         $this->setTableData($teacherDb->getTableData($name));
         return $this->return();
     }
 
-    public function edit(Request $request): JsonResponse
+    public function edit(Request $request, SessionInterface $session): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         $id = $this->request('id', null);
@@ -42,7 +65,7 @@ class TeacherController extends Controller
 
         $rst = $teacherDb->editTeacher($id, $name, $phone, $admin);
         if ($rst === true) {
-            return $this->search($request);
+            return $this->search($request, $session);
         } elseif ($rst['type'] = 'confirm') {
             return $this->confirm($rst['msg']);
         } else {
@@ -50,7 +73,7 @@ class TeacherController extends Controller
         }
     }
 
-    public function delete(Request $request): JsonResponse
+    public function delete(Request $request, SessionInterface $session): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         $id = $this->request('id', null);
@@ -61,7 +84,7 @@ class TeacherController extends Controller
 
         $rst = $teacherDb->deleteTeacher($id);
         if ($rst === true) {
-            return $this->search($request);
+            return $this->search($request, $session);
         } elseif ($rst['type'] = 'confirm') {
             return $this->confirm($rst['msg']);
         } else {
@@ -69,7 +92,7 @@ class TeacherController extends Controller
         }   
     }
 
-    public function new(Request $request): JsonResponse
+    public function new(Request $request, SessionInterface $session): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         $name = $this->request('name', null);
@@ -97,7 +120,7 @@ class TeacherController extends Controller
 
         $rst = $teacherDb->newTeacher($name, $account, $password, $phone, $admin);
         if ($rst === true) {
-            return $this->search($request);
+            return $this->search($request, $session);
         } elseif ($rst['type'] = 'confirm') {
             return $this->confirm($rst['msg']);
         } else {
