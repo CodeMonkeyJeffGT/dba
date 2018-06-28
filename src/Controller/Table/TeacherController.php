@@ -19,9 +19,9 @@ class TeacherController extends Controller
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         if ($id = $teacherDb->login($account, $password) !== false) {
             $session->set('id', $id);
-            $this->success();
+            return $this->success();
         } else {
-            $this->error();
+            return $this->error('登录失败');
         }
     }
 
@@ -29,14 +29,14 @@ class TeacherController extends Controller
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         $this->setDefaults();
-        if ( ! $teacherDb->checkPermit($session->get('id'))) {
-            $this->setActions(array(
-                array(
-                    'title' => '查看',
-                    'value' => 'watch',
-                ),
-            ));
-        }
+        // if ( ! $teacherDb->checkPermit($session->get('id'))) {
+        //     $this->setActions(array(
+        //         array(
+        //             'title' => '查看',
+        //             'value' => 'watch',
+        //         ),
+        //     ));
+        // }
         $name = $request->query->get('name', '');
         $this->setTableData($teacherDb->getTableData($name));
         return $this->return();

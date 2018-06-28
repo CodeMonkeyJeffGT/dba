@@ -9,6 +9,10 @@ multselect-teacher:
     path: /api/multselect/teacher
     controller: App\Controller\Multselect\TeacherController::search
 
+login:
+    path: /api/login
+    controller: App\Controller\Table\TeacherController::login
+
 table-exam:
     path: /api/table/exam
     controller: App\Controller\Table\ExamController::search
