@@ -144,7 +144,7 @@ class TeacherController extends Controller
                     'name',
                 ),
                 'type' => 'uri',
-                'uri' => '/table/teacher',
+                'uri' => '/api/table/teacher',
                 'method' => 'get',
             ),
             array(
@@ -181,7 +181,7 @@ class TeacherController extends Controller
                         ),
                     ),
                 ),
-                'uri' => '/table/teacher/new',
+                'uri' => '/api/table/teacher/new',
                 'method' => 'post',
             ),
         ));
