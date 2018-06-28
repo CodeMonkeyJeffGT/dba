@@ -25,18 +25,41 @@ class TeacherController extends Controller
         }
     }
 
+    public function viewSelf(Request $request, SessionInterface $session): JsonResponse
+    {
+        $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
+        $id = $session->get('id');
+        return $this->success($teacherDb->viewSelf($id));
+    }
+
+    public function editSelf(Request $request, SessionInterface $session): JsonResponse
+    {
+        $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
+        $id = $session->get('id');
+        $phone = $this->request('phone', null);
+        if (empty($phone)) {
+            return $this->error('手机号不能为空');
+        }
+        $rst = $teacherDb->editSelf($id, $phone);
+        if ($rst) {
+            return $this->success();
+        } else {
+            return $this->error($rst['msg']);
+        }
+    }
+
     public function search(Request $request, SessionInterface $session): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         $this->setDefaults();
-        // if ( ! $teacherDb->checkPermit($session->get('id'))) {
-        //     $this->setActions(array(
-        //         array(
-        //             'title' => '查看',
-        //             'value' => 'watch',
-        //         ),
-        //     ));
-        // }
+        if ( ! $teacherDb->checkPermit($session->get('id'))) {
+            $this->setActions(array(
+                array(
+                    'title' => '查看',
+                    'value' => 'watch',
+                ),
+            ));
+        }
         $name = $request->query->get('name', '');
         $this->setTableData($teacherDb->getTableData($name));
         return $this->return();

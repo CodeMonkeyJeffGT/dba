@@ -99,6 +99,17 @@ class TeacherRepository extends ServiceEntityRepository
         return $this->mergeTable($rst);
     }
 
+    public function viewSelf($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT `t`.`name` `name`, `t`.`account` `account`, `t`.`phone` `phone`, `t`.`admin` `admin`
+        FROM `teacher` `t`
+        WHERE `t`.`id` = :id
+        ';
+        $rst = $stmt->fetchAll();
+        return $rst[0];
+    }
+
     public function editTeacher($id, $name, $phone, $admin)
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -125,6 +136,20 @@ class TeacherRepository extends ServiceEntityRepository
             'name' => $name,
             'phone' => $phone,
             'admin' => (int)$admin,
+            'id' => $id,
+        ));
+        return true;
+    }
+
+    public function editSelf($id, $phone)
+    {
+        $sql = 'UPDATE `teacher` `t`
+            SET `t`.`phone` = :phone
+            WHERE `t`.`id` = :id
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'phone' => $phone,
             'id' => $id,
         ));
         return true;
