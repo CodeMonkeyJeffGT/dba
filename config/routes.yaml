@@ -32,9 +32,15 @@ table-exam-new:
 table-teacher:
     path: /api/table/teacher
     controller: App\Controller\Table\TeacherController::search
+table-teacher-self:
+    path: /api/table/teacher/self
+    controller: App\Controller\Table\TeacherController::viewSelf
 table-teacher-edit:
     path: /api/table/teacher/edit
     controller: App\Controller\Table\TeacherController::edit
+table-teacher-edit-self:
+    path: /api/table/teacher/edit/self
+    controller: App\Controller\Table\TeacherController::editSelf
 table-teacher-delete:
     path: /api/table/teacher/delete
     controller: App\Controller\Table\TeacherController::delete

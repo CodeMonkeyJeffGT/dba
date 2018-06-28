@@ -19,7 +19,7 @@ class TeacherController extends Controller
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         if ($id = $teacherDb->login($account, $password) !== false) {
             $session->set('id', $id);
-            return $this->success();
+            return $this->return();
         } else {
             return $this->error('登录失败');
         }
@@ -29,7 +29,8 @@ class TeacherController extends Controller
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         $id = $session->get('id');
-        return $this->success($teacherDb->viewSelf($id));
+        $data = $teacherDb->viewSelf($id);
+        return $this->return($data);
     }
 
     public function editSelf(Request $request, SessionInterface $session): JsonResponse
@@ -42,7 +43,7 @@ class TeacherController extends Controller
         }
         $rst = $teacherDb->editSelf($id, $phone);
         if ($rst) {
-            return $this->success();
+            return $this->return();
         } else {
             return $this->error($rst['msg']);
         }

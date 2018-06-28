@@ -106,6 +106,10 @@ class TeacherRepository extends ServiceEntityRepository
         FROM `teacher` `t`
         WHERE `t`.`id` = :id
         ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            'id' => $id,
+        ));
         $rst = $stmt->fetchAll();
         return $rst[0];
     }
