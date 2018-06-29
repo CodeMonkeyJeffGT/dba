@@ -11,15 +11,15 @@ use App\Entity\Teacher;
 
 class TeacherController extends Controller
 {
-    public function login(SessionInterface $session): JsonResponse
+    public function login(Request $request, SessionInterface $session): JsonResponse
     {
         $account = $this->request('account', null);
         $password = $this->request('password', null);
         $password = strtoupper(md5($password));
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
-        if ($id = $teacherDb->login($account, $password) !== false) {
+        if (($id = $teacherDb->login($account, $password)) !== false) {
             $session->set('id', $id);
-            return $this->return();
+            return $this->search($request, $session);
         } else {
             return $this->error('登录失败');
         }
