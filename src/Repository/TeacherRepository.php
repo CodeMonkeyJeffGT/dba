@@ -151,6 +151,7 @@ class TeacherRepository extends ServiceEntityRepository
             SET `t`.`phone` = :phone
             WHERE `t`.`id` = :id
         ';
+        $conn = $this->getEntityManager()->getConnection();
         $stmt = $conn->prepare($sql);
         $stmt->execute(array(
             'phone' => $phone,

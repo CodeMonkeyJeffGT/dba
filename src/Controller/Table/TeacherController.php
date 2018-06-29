@@ -43,7 +43,7 @@ class TeacherController extends Controller
         }
         $rst = $teacherDb->editSelf($id, $phone);
         if ($rst) {
-            return $this->return();
+            return $this->viewSelf($request, $session);
         } else {
             return $this->error($rst['msg']);
         }
