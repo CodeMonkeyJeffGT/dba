@@ -33,6 +33,7 @@ class BaseController extends Controller
         $response->headers->set('Access-Control-Allow-Headers', 'token, Origin, X-Requested-With, Content-Type, Accept');
         $response->headers->set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
         $response->headers->set('X-Powered-By', '3.2.1');
+        $response->headers->set('Access-Control-Allow-Credentials', 'true');
         return $response;
     }
 
