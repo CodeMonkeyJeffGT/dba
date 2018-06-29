@@ -60,6 +60,17 @@ class TeacherController extends Controller
                     'value' => 'watch',
                 ),
             ));
+            $this->setButtons(array(
+                array(
+                    'name' => '搜索',
+                    'params' => array(
+                        'name',
+                    ),
+                    'type' => 'uri',
+                    'uri' => '/api/table/teacher',
+                    'method' => 'get',
+                ),
+            ));
         }
         $name = $request->query->get('name', '');
         $this->setTableData($teacherDb->getTableData($name));
