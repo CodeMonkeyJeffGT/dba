@@ -60,7 +60,7 @@ table-task-message:
     controller: App\Controller\Table\taskController::message
 table-task-file:
     path: /api/table/task/file
-    controller: App\Controller\Table\taskController::file
+    controller: App\Controller\Table\taskController::fileTask
 table-task-message-view:
     path: /api/table/task/message/view
     controller: App\Controller\Table\taskController::messageView

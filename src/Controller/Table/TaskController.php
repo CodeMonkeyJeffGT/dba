@@ -18,7 +18,7 @@ class TaskController extends Controller
         return $this->list($request, $session, 'message');
     }
 
-    public function file(Request $request, SessionInterface $session)
+    public function fileTask(Request $request, SessionInterface $session)
     {
         return $this->list($request, $session, 'file');
     }
