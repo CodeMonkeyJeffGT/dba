@@ -5,6 +5,8 @@ namespace App\Controller\Menu;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Menu\BaseController as Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\Teacher;
 
 class IndexController extends Controller
