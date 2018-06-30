@@ -9,7 +9,7 @@ use App\Entity\Teacher;
 
 class IndexController extends Controller
 {
-    public function list(): JsonResponse
+    public function list(Request $request, SessionInterface $session): JsonResponse
     {
         $teacherDb = $this->getDoctrine()->getRepository(Teacher::class);
         if ( ! $teacherDb->checkPermit($session->get('id'))) {
