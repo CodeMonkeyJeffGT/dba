@@ -51,44 +51,31 @@ table-teacher-new:
     path: /api/table/teacher/new
     controller: App\Controller\Table\TeacherController::new
 
-doc-index:
-    path: /
-    controller: App\Controller\BaseController::index
-api-menu:
-    path: /api-menu
-    controller: App\Controller\Menu\BaseController::index
-mock-menu-return:
-    path: /mock/menu/return
-    controller: App\Controller\Menu\BaseController::mockreturn
-mock-menu-confirm:
-    path: /mock/menu/confirm
-    controller: App\Controller\Menu\BaseController::mockconfirm
-mock-menu-error:
-    path: /mock/menu/error
-    controller: App\Controller\Menu\BaseController::mockerror
 
-api-multselect:
-    path: /api-multselect
-    controller: App\Controller\Multselect\BaseController::index
-mock-multselect-return:
-    path: /mock/multselect/return
-    controller: App\Controller\Multselect\BaseController::mockreturn
-mock-multselect-confirm:
-    path: /mock/multselect/confirm
-    controller: App\Controller\Multselect\BaseController::mockconfirm
-mock-multselect-error:
-    path: /mock/multselect/error
-    controller: App\Controller\Multselect\BaseController::mockerror
-
-api-table:
-    path: /api-table
-    controller: App\Controller\Table\BaseController::index
-mock-table-return:
-    path: /mock/table/return
-    controller: App\Controller\Table\BaseController::mockreturn
-mock-table-confirm:
-    path: /mock/table/confirm
-    controller: App\Controller\Table\BaseController::mockconfirm
-mock-table-error:
-    path: /mock/table/error
-    controller: App\Controller\Table\BaseController::mockerror
+table-task-new:
+    path: /api/table/task/new
+    controller: App\Controller\Table\taskController::new
+table-task-message:
+    path: /api/table/task/message
+    controller: App\Controller\Table\taskController::message
+table-task-file:
+    path: /api/table/task/file
+    controller: App\Controller\Table\taskController::file
+table-task-message-view:
+    path: /api/table/task/message/view
+    controller: App\Controller\Table\taskController::messageView
+table-task-file-view:
+    path: /api/table/task/file/view
+    controller: App\Controller\Table\taskController::fileView
+table-task-message-answer:
+    path: /api/table/task/message/answer
+    controller: App\Controller\Table\taskController::messageAnswer
+table-task-file-answer:
+    path: /api/table/task/file/answer
+    controller: App\Controller\Table\taskController::fileAnswer
+table-task-file-upload:
+    path: /api/table/task/file/upload
+    controller: App\Controller\Table\taskController::fileupload
+table-task-file-download:
+    path: /api/table/task/file/download
+    controller: App\Controller\Table\taskController::fileDownload
